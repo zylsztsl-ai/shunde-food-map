@@ -1,0 +1,980 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>顺德同学饭局地图</title>
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --ink: #1f2933;
+      --muted: #65717f;
+      --line: #e6dfd2;
+      --card: #ffffff;
+      --brand: #0f766e;
+      --brand-2: #d97706;
+      --brand-3: #9f1239;
+      --soft: #edf7f4;
+      --warn: #fff5df;
+      --danger: #fff0f2;
+      --shadow: 0 10px 26px rgba(30, 41, 59, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.55;
+    }
+    a { color: inherit; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 18px; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(251, 250, 247, 0.92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+    }
+    .topbar .wrap {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+    }
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 800;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(24px, 4vw, 42px); line-height: 1.12; margin-bottom: 12px; }
+    h2 { font-size: 22px; margin-bottom: 12px; }
+    h3 { font-size: 17px; margin-bottom: 8px; }
+    .brand strong {
+      display: block;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .brand span { display: block; color: var(--muted); font-size: 12px; }
+    .nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .nav a, .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 9px 13px;
+      text-decoration: none;
+      white-space: nowrap;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .btn.primary {
+      background: var(--brand);
+      color: #fff;
+      border-color: var(--brand);
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      align-items: stretch;
+      padding: 26px 0 16px;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .hero-main {
+      background:
+        linear-gradient(135deg, rgba(15, 118, 110, 0.96), rgba(15, 118, 110, 0.76)),
+        radial-gradient(circle at 80% 18%, rgba(255,255,255,0.25), transparent 18%),
+        radial-gradient(circle at 18% 72%, rgba(255,255,255,0.18), transparent 20%);
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      border-radius: 8px;
+      min-height: 330px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .hero-main p { color: rgba(255,255,255,0.9); max-width: 740px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: var(--soft);
+      color: var(--brand);
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .hero-main .chip { color: #fff; background: rgba(255,255,255,0.18); }
+    .notice {
+      border-left: 4px solid var(--brand-2);
+      background: var(--warn);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #5f3d05;
+      font-size: 14px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .stat {
+      background: #f8f6f1;
+      border-radius: 8px;
+      padding: 12px;
+      border: 1px solid var(--line);
+    }
+    .stat b { display: block; font-size: 22px; color: var(--brand); }
+    .section { padding: 18px 0; }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .pick {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 100%;
+    }
+    .pick .label {
+      display: inline-block;
+      width: fit-content;
+      border-radius: 999px;
+      padding: 5px 9px;
+      color: #fff;
+      background: var(--brand);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .label.orange { background: var(--brand-2); }
+    .label.red { background: var(--brand-3); }
+    .filters {
+      display: grid;
+      grid-template-columns: 1.3fr repeat(4, minmax(120px, 1fr));
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 12px;
+    }
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 10px;
+      margin: 10px 0 14px;
+    }
+    .quick-actions .btn {
+      width: 100%;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 10px 11px;
+      font: inherit;
+    }
+    textarea { min-height: 118px; resize: vertical; }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .card-list {
+      display: none;
+      gap: 12px;
+    }
+    .restaurant-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      box-shadow: 0 6px 18px rgba(30, 41, 59, 0.06);
+    }
+    .card-head {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+    .meta-line {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin: 10px 0;
+    }
+    .info-box {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 9px;
+      font-size: 13px;
+    }
+    .info-box b {
+      display: block;
+      color: #334155;
+      margin-bottom: 2px;
+    }
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .card-actions .link {
+      width: 100%;
+      margin: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      font-size: 14px;
+    }
+    th {
+      position: sticky;
+      top: 59px;
+      background: #fffcf6;
+      z-index: 4;
+      color: #374151;
+    }
+    tr:last-child td { border-bottom: 0; }
+    .rank {
+      display: inline-flex;
+      width: 34px;
+      height: 26px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--brand);
+      font-weight: 800;
+    }
+    .rank.B { background: #fff7ed; color: var(--brand-2); }
+    .rank.C { background: var(--danger); color: var(--brand-3); }
+    .small { color: var(--muted); font-size: 12px; }
+    .taglist { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag {
+      display: inline-block;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 12px;
+    }
+    .link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 7px 10px;
+      margin: 2px 0;
+      background: var(--brand);
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .link.secondary { background: #334155; }
+    .map-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+      gap: 14px;
+    }
+    .visual-map {
+      position: relative;
+      min-height: 520px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(15,118,110,0.06) 1px, transparent 1px),
+        linear-gradient(rgba(15,118,110,0.06) 1px, transparent 1px),
+        radial-gradient(circle at 42% 38%, rgba(15,118,110,0.16), transparent 24%),
+        radial-gradient(circle at 67% 66%, rgba(217,119,6,0.16), transparent 22%),
+        #fffdf8;
+      background-size: 42px 42px, 42px 42px, auto, auto, auto;
+    }
+    .map-water {
+      position: absolute;
+      left: -6%;
+      right: -6%;
+      top: 52%;
+      height: 62px;
+      transform: rotate(-13deg);
+      background: rgba(14, 116, 144, 0.12);
+      border-top: 1px solid rgba(14, 116, 144, 0.18);
+      border-bottom: 1px solid rgba(14, 116, 144, 0.18);
+    }
+    .map-road {
+      position: absolute;
+      left: 12%;
+      right: 8%;
+      top: 41%;
+      height: 8px;
+      transform: rotate(18deg);
+      border-radius: 999px;
+      background: rgba(217, 119, 6, 0.2);
+    }
+    .map-label {
+      position: absolute;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.86);
+      border: 1px solid var(--line);
+      color: #52606d;
+      font-size: 12px;
+      font-weight: 700;
+      pointer-events: none;
+    }
+    .pin {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      transform: translate(-50%, -50%);
+      border: 2px solid #fff;
+      border-radius: 999px 999px 999px 4px;
+      rotate: -45deg;
+      background: var(--brand);
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.24);
+      cursor: pointer;
+    }
+    .pin::after {
+      content: attr(data-index);
+      position: absolute;
+      inset: 4px;
+      display: grid;
+      place-items: center;
+      rotate: 45deg;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .pin.B { background: var(--brand-2); }
+    .pin.C { background: var(--brand-3); }
+    .pin:hover, .pin.active {
+      z-index: 5;
+      transform: translate(-50%, -50%) scale(1.16);
+    }
+    .map-side {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+    .map-detail {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 13px;
+    }
+    .map-detail b { color: var(--brand); }
+    .zone-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .zone {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      min-height: 94px;
+    }
+    .zone b { display: block; color: var(--brand); margin-bottom: 4px; font-size: 13px; }
+    .zone ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .import-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .import-output {
+      min-height: 160px;
+      border: 1px dashed #c8bda8;
+      border-radius: 8px;
+      padding: 12px;
+      background: #fffdf8;
+    }
+    .source-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 0;
+      list-style: none;
+    }
+    .source-list li {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 13px;
+    }
+    .empty {
+      padding: 18px;
+      color: var(--muted);
+      text-align: center;
+    }
+    @media (max-width: 860px) {
+      .topbar .wrap { align-items: flex-start; flex-direction: column; }
+      .hero, .grid-3, .import-grid, .source-list, .map-layout { grid-template-columns: 1fr; }
+      .hero-main { min-height: 300px; padding: 20px; }
+      .filters { grid-template-columns: 1fr 1fr; }
+      .quick-actions { grid-template-columns: 1fr 1fr; }
+      .stats { grid-template-columns: 1fr 1fr 1fr; }
+      .visual-map { min-height: 430px; }
+      .table-wrap { display: none; }
+      .card-list { display: grid; }
+    }
+    @media (max-width: 560px) {
+      .wrap { padding: 12px; }
+      .topbar { position: static; }
+      .nav { width: 100%; }
+      .filters { grid-template-columns: 1fr; }
+      .quick-actions { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .panel { padding: 14px; }
+      .hero-main { min-height: 290px; }
+      .zone-list { grid-template-columns: 1fr; }
+      .pin { width: 24px; height: 24px; }
+      .card-grid, .card-actions { grid-template-columns: 1fr; }
+      h1 { font-size: 27px; }
+    }
+    @media print {
+      .topbar, .filters, .import-grid, .btn { display: none !important; }
+      body { background: #fff; }
+      .panel, .hero-main { box-shadow: none; }
+      table { min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand">
+        <div class="mark">顺</div>
+        <div>
+          <strong>顺德同学饭局地图</strong>
+          <span>酒店锚点：全季酒店（顺德清晖园华盖路店）</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="页面导航">
+        <a href="#picks">先看结论</a>
+        <a href="#table">筛选表格</a>
+        <a href="#map">可视化地图</a>
+        <a href="#import">导入收藏</a>
+        <a href="#sources">信息来源</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-main">
+        <div>
+          <div class="chips">
+            <span class="chip">2026-06-12 到 06-14</span>
+            <span class="chip">口碑优先</span>
+            <span class="chip">轻松随便吃</span>
+            <span class="chip">高德一键搜索</span>
+          </div>
+          <h1>到顺德以后，先别在群里吵半小时吃什么。</h1>
+          <p>这页已经按你发来的大众点评顺德收藏截图整理了 30 家店，按“优先去、顺路备选、需确认”分层，配合可视化点位和高德地图搜索链接。</p>
+        </div>
+      </div>
+      <aside class="panel">
+        <h2>使用口径</h2>
+        <p class="notice">当前是截图识别版：店名、评分、人均、商圈来自你发来的大众点评长截图；精确门牌号先用高德搜索确认，避免把截图里没有的信息写死。</p>
+        <div class="stats">
+          <div class="stat"><b id="statTotal">0</b><span>候选店</span></div>
+          <div class="stat"><b id="statA">0</b><span>优先去</span></div>
+          <div class="stat"><b id="statNear">0</b><span>酒店附近</span></div>
+        </div>
+        <div class="chips">
+          <span class="chip">A = 名气/代表性强</span>
+          <span class="chip">B = 顺路好补位</span>
+          <span class="chip">C = 先确认再去</span>
+        </div>
+      </aside>
+    </section>
+
+    <section id="picks" class="section">
+      <h2>先看结论</h2>
+      <div class="grid-3">
+        <article class="panel pick">
+          <span class="label">抵达午餐</span>
+          <h3>大良近酒店：毋米粥 / 烧鹅 / 私房菜</h3>
+          <p>中午刚到，优先别跑太远。正餐先看大良毋米粥、黄连大头华烧鹅店、尧记私房菜；想轻松一点就选方趣冰店、民骏凉茶、粥球场。</p>
+          <a class="link" target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%28%E9%A1%BA%E5%BE%B7%E6%B8%85%E6%99%96%E5%9B%AD%E5%8D%8E%E7%9B%96%E8%B7%AF%E5%BA%97%29&city=%E4%BD%9B%E5%B1%B1">打开酒店位置</a>
+        </article>
+        <article class="panel pick">
+          <span class="label orange">下午小吃</span>
+          <h3>大良商圈先消化，下午再喝糖水咖啡</h3>
+          <p>你收藏里大良密度最高，适合清晖园、华盖路、附近咖啡和小吃一起走。方趣冰店、椿咖啡、野生选手都可以当饭后缓冲。</p>
+          <a class="link" target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=%E9%A1%BA%E5%BE%B7%20%E9%87%91%E6%A6%9C%E7%89%9B%E4%B9%B3%E6%96%87%E5%8C%96%E8%A1%97&city=%E4%BD%9B%E5%B1%B1">搜金榜街</a>
+        </article>
+        <article class="panel pick">
+          <span class="label red">专门一顿</span>
+          <h3>容桂/伦教/北滘适合专门拉一条线</h3>
+          <p>猪肉婆、红星光发在容桂，天然居和欢姐伦教糕在伦教，大树头在北滘。它们不适合临时“随便走过去”，更适合单独安排半天。</p>
+          <a class="link" target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=%E9%A1%BA%E5%BE%B7%20%E5%AE%B9%E6%A1%82%E6%B8%94%E4%BA%BA%E7%A0%81%E5%A4%B4&city=%E4%BD%9B%E5%B1%B1">搜容桂渔人码头</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="table" class="section">
+      <div class="panel">
+        <h2>筛选表格</h2>
+        <div class="filters">
+          <div>
+            <label for="q">搜索店名、菜品、标签</label>
+            <input id="q" type="search" placeholder="例如：双皮奶 / 烧鹅 / 容桂 / 少排队" />
+          </div>
+          <div>
+            <label for="area">区域</label>
+            <select id="area"></select>
+          </div>
+          <div>
+            <label for="kind">类型</label>
+            <select id="kind"></select>
+          </div>
+          <div>
+            <label for="rank">推荐等级</label>
+            <select id="rank">
+              <option value="">全部</option>
+              <option value="A">A 优先去</option>
+              <option value="B">B 顺路备选</option>
+              <option value="C">C 需确认</option>
+            </select>
+          </div>
+          <div>
+            <label for="sort">排序</label>
+            <select id="sort">
+              <option value="rank">推荐优先</option>
+              <option value="distance">离酒店近</option>
+              <option value="price">人均低</option>
+              <option value="area">按区域</option>
+            </select>
+          </div>
+        </div>
+        <div class="chips" style="margin-bottom: 12px;">
+          <button class="btn primary" id="exportCsv" type="button">导出当前筛选 CSV</button>
+          <button class="btn" id="reset" type="button">重置筛选</button>
+          <span class="small" id="countText"></span>
+        </div>
+        <div class="quick-actions">
+          <button class="btn primary" type="button" data-quick="A">只看优先去</button>
+          <button class="btn" type="button" data-quick="near">酒店附近/大良</button>
+          <button class="btn" type="button" data-quick="light">轻松小吃甜品</button>
+          <button class="btn" type="button" data-quick="reset">看全部</button>
+        </div>
+        <div class="card-list" id="cards"></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>级别</th>
+                <th>餐厅</th>
+                <th>区域</th>
+                <th>人均 / 评分</th>
+                <th>推荐理由</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+          <div id="empty" class="empty" hidden>没有符合条件的餐厅，换个筛选试试。</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="map" class="section">
+      <h2>可视化地图地址</h2>
+      <div class="map-layout">
+        <div class="visual-map" id="visualMap" aria-label="顺德餐厅可视化地图">
+          <div class="map-water"></div>
+          <div class="map-road"></div>
+        </div>
+        <aside class="map-side">
+          <div class="map-detail" id="mapDetail">
+            <b>点地图上的餐厅</b>
+            <p class="small">会显示商圈、人均、截图地址线索和高德搜索入口。</p>
+          </div>
+          <div class="zone-list" id="route"></div>
+        </aside>
+      </div>
+      <p class="small" style="margin-top:10px;">说明：这是根据截图商圈做的可视化相对地图，方便同学讨论选店；精确导航以点开后的高德结果为准。</p>
+    </section>
+
+    <section id="import" class="section">
+      <div class="panel">
+        <h2>导入你的大众点评收藏</h2>
+        <div class="import-grid">
+          <div>
+            <p>截图里的 30 家已经导入。后面如果你又新增收藏，也可以把餐厅名一行一个粘进来，页面会生成临时高德搜索入口，方便你们先讨论。</p>
+            <label for="rawNames">一行一个餐厅名</label>
+            <textarea id="rawNames" placeholder="例如：
+猪肉婆私房菜
+民信老铺
+黄连大头华烧鹅"></textarea>
+            <div class="chips">
+              <button class="btn primary" id="makeTemp" type="button">生成临时搜索链接</button>
+              <button class="btn" id="clearTemp" type="button">清空</button>
+            </div>
+          </div>
+          <div>
+            <h3>临时收藏清单</h3>
+            <div class="import-output" id="tempList">还没有导入餐厅名。</div>
+          </div>
+        </div>
+        <p class="notice" style="margin-top: 14px;">复核建议：截图只能看到商圈和人均，不能保证每家店的完整门牌和营业状态；出发前点“高德搜索”再确认一次。</p>
+      </div>
+    </section>
+
+    <section id="sources" class="section">
+      <h2>信息来源与复核提醒</h2>
+      <ul class="source-list">
+        <li>你提供的大众点评收藏长截图<br><span class="small">用于 30 家餐厅的店名、分店、评分、评论量、人均、菜系和商圈。</span></li>
+        <li><a target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=%E9%A1%BA%E5%BE%B7%E7%BE%8E%E9%A3%9F&city=%E4%BD%9B%E5%B1%B1">高德地图搜索</a><br><span class="small">用于现场打开精确门牌、路线、营业状态和距离。</span></li>
+        <li>页面内可视化地图<br><span class="small">按截图商圈做相对位置，不替代导航地图。</span></li>
+      </ul>
+      <p class="small">更新时间：2026-06-11 16:41 截图版。人均、营业时间、排队和分店状态会变，出发前请用高德/大众点评再确认一次。</p>
+    </section>
+  </main>
+
+  <script>
+    const hotel = "全季酒店(顺德清晖园华盖路店)";
+    const restaurants = [
+      { name: "天然居", branch: "伦教店", rank: "A", area: "伦教商圈", kind: "顺德菜", price: 85, priceText: "¥85/人", rating: 4.5, reviews: 2059, distance: 8.5, x: 31, y: 34, vibe: "适合专门安排伦教线，环境和桌位更像正餐聚会", dishes: "顺德菜、家常菜、多人围桌菜", queue: "截图显示有包厢、有大桌；周末仍建议提前确认订位", tags: ["收藏18年", "有包厢", "有大桌", "伦教线"], address: "顺德区伦教商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "新基豆腐店", branch: "", rank: "C", area: "大良商圈", kind: "小吃快餐", price: 32, priceText: "¥32/人", rating: 3.8, reviews: 982, distance: 1.5, x: 51, y: 39, vibe: "预算友好，适合随便垫一顿或尝豆腐小吃", dishes: "豆腐、煎炸小吃、快餐简餐", queue: "评分偏低，作为路过备选更合适", tags: ["收藏7年", "轻松吃", "预算友好"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "方趣冰店", branch: "", rank: "A", area: "大良商圈", kind: "冰淇淋", price: 19, priceText: "¥19/人", rating: 4.7, reviews: 603, distance: 1.3, x: 48, y: 36, vibe: "饭后甜品或下午散步补点，轻松不占胃", dishes: "冰淇淋、雪糕、冷饮甜品", queue: "小店型选择，专门当正餐不合适", tags: ["口味榜第1名", "收藏5年", "甜品"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "尧记私房菜", branch: "", rank: "A", area: "大良商圈", kind: "私房菜", price: 116, priceText: "¥116/人", rating: 4.6, reviews: 950, distance: 1.8, x: 53, y: 42, vibe: "离酒店所在大良主线近，适合同学坐下来吃一顿", dishes: "顺德私房菜、家常热菜、砂锅类", queue: "截图显示有大桌、免费停车；建议提前订位", tags: ["口味榜第8名", "收藏7年", "有大桌", "免费停车"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "银辉饭店", branch: "沿江北路总店", rank: "B", area: "大良商圈", kind: "顺德菜", price: 87, priceText: "¥87/人", rating: 4.4, reviews: 641, distance: 1.7, x: 57, y: 37, vibe: "大良正餐备选，人均适中，适合多人桌", dishes: "传统顺德菜、饭店热菜", queue: "截图显示有包厢、有大桌、付费停车；出发前确认停车", tags: ["收藏14年", "有包厢", "有大桌"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "志丰饮食店", branch: "逢源路店", rank: "C", area: "大良商圈", kind: "快餐简餐", price: 54, priceText: "¥54/人", rating: 3.9, reviews: 571, distance: 1.4, x: 46, y: 43, vibe: "适合快速解决，不适合作为同学聚餐主力", dishes: "简餐、小炒、快餐", queue: "评分一般，优先级放低", tags: ["收藏13年", "免费停车"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "大笑饭堂", branch: "甲子桥店", rank: "B", area: "大良商圈", kind: "农家菜", price: 95, priceText: "¥95/人", rating: 3.9, reviews: 2987, distance: 2.8, x: 59, y: 44, vibe: "评论量高，适合想吃农家菜时作为备选", dishes: "农家菜、顺德家常菜、蒸鱼鸡肉类", queue: "评分不高但热度高，建议看当天新评价", tags: ["农家菜热门第1名", "收藏14年", "有大桌"], address: "顺德区，截图未显示更细商圈；高德搜索甲子桥店", source: "大众点评截图", confidence: "截图识别" },
+      { name: "野生选手", branch: "", rank: "B", area: "大良商圈", kind: "咖啡", price: 21, priceText: "¥21/人", rating: 4.3, reviews: 338, distance: 1.2, x: 43, y: 38, vibe: "下午休息、等人、避暑喝咖啡", dishes: "咖啡、轻饮", queue: "无包厢，不适合作为饭局", tags: ["收藏4年", "现磨咖啡", "免费Wi-Fi"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "橄榄园·特色桑拿鸡·无骨鱼", branch: "", rank: "B", area: "大良商圈", kind: "顺德菜", price: 88, priceText: "¥88/人", rating: 4.2, reviews: 1015, distance: 2.2, x: 55, y: 48, vibe: "想吃桑拿鸡、无骨鱼这类顺德特色时可选", dishes: "桑拿鸡、无骨鱼、顺德菜", queue: "热度中等，适合提前确认是否有位", tags: ["收藏10年", "有大桌", "免费停车"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "大树头老字号甜品店", branch: "北滘总店", rank: "B", area: "北滘商圈", kind: "甜品", price: 27, priceText: "¥27/人", rating: 4.2, reviews: 2880, distance: 16.0, x: 46, y: 15, vibe: "北滘线甜品备选，单独从酒店过去不划算", dishes: "甜品、糕点、糖水", queue: "截图显示付费停车；建议顺路再去", tags: ["面包蛋糕甜品热门第1名", "收藏14年"], address: "顺德区北滘商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "民骏龟苓膏凉茶", branch: "桥珠巷旗舰店", rank: "B", area: "大良商圈", kind: "茶饮果汁", price: 21, priceText: "¥21/人", rating: 4.4, reviews: 3908, distance: 1.0, x: 49, y: 47, vibe: "饭后清口、散步顺手买，适合小份分享", dishes: "龟苓膏、凉茶、茶饮", queue: "不是正餐，适合作为路线补点", tags: ["收藏13年", "可带宠物", "有节目表演"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "大门山庄", branch: "", rank: "B", area: "大良商圈", kind: "顺德菜", price: 95, priceText: "¥95/人", rating: 4.4, reviews: 71, distance: 3.6, x: 63, y: 50, vibe: "评价量少但评分不错，适合当安静备选", dishes: "顺德菜、山庄式家常菜", queue: "评论量少，需确认营业和实际环境", tags: ["收藏8年", "有包厢", "免费停车", "可预订"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "川村家厨", branch: "", rank: "B", area: "大良商圈", kind: "茶餐厅", price: 38, priceText: "¥38/人", rating: 4.4, reviews: 546, distance: 1.1, x: 44, y: 50, vibe: "轻松茶餐厅，适合早餐/下午简餐", dishes: "茶餐厅简餐、奶茶、面饭", queue: "更适合补位，不是顺德菜代表", tags: ["茶餐厅好评第5名", "收藏5年"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "亩得顶饭堂", branch: "大良店", rank: "B", area: "大良商圈", kind: "顺德菜", price: 95, priceText: "¥95/人", rating: 4.1, reviews: 3235, distance: 2.4, x: 60, y: 40, vibe: "热度高，适合一桌人吃家常顺德菜", dishes: "顺德菜、煲类、小炒", queue: "评分不算突出，建议现场看排队和近期评价", tags: ["热门榜第8名", "有包厢", "免费停车"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "大吉饭堂", branch: "", rank: "B", area: "大良商圈", kind: "顺德菜", price: 102, priceText: "¥102/人", rating: 4.3, reviews: 1095, distance: 2.0, x: 52, y: 53, vibe: "大良饭堂型正餐备选", dishes: "顺德菜、饭堂热菜、多人菜", queue: "截图显示可预订，建议提前看是否有位", tags: ["收藏5年", "有包厢", "免费停车", "可预订"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "大码头睿淇小食店", branch: "", rank: "B", area: "大良商圈", kind: "快餐简餐", price: 52, priceText: "¥52/人", rating: 4.2, reviews: 284, distance: 1.6, x: 47, y: 55, vibe: "小吃简餐，适合不想正式吃饭时补一顿", dishes: "粥粉面、小食、简餐", queue: "评论量不高，作为备选", tags: ["收藏7年", "轻松吃"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "黄但记·非遗老字号·中华餐饮名店", branch: "万科店", rank: "B", area: "陈村商圈", kind: "顺德菜", price: 83, priceText: "¥83/人", rating: 4.0, reviews: 6470, distance: 18.0, x: 73, y: 19, vibe: "陈村线顺路时可选，热度高但离酒店远", dishes: "陈村粉、顺德菜、老字号菜式", queue: "评分一般，适合路过陈村再考虑", tags: ["陈村商圈粤菜口头客第7名", "收藏12年", "有包厢", "有大桌"], address: "顺德区陈村商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "阿多私房菜", branch: "顺德店", rank: "A", area: "勒流商圈", kind: "私房菜", price: 155, priceText: "¥155/人", rating: 4.6, reviews: 5253, distance: 8.5, x: 34, y: 59, vibe: "评分和热度都强，适合专门安排一顿私房菜", dishes: "顺德私房菜、鱼生/家常菜需现场确认", queue: "人均偏高，建议提前订位", tags: ["美食热门榜第1名", "收藏13年", "有包厢", "有大桌"], address: "顺德区勒流商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "猪肉婆私房菜", branch: "容桂总店", rank: "A", area: "容桂商圈", kind: "顺德菜", price: 244, priceText: "¥244/人", rating: 4.4, reviews: 24166, distance: 13.0, x: 67, y: 68, vibe: "名气和评论量极高，适合作为专门去的一顿", dishes: "顺德菜、私房菜、招牌鱼饼/炸鲜奶类", queue: "人均高、周末可能排队；强烈建议提前订位", tags: ["美食销量榜第1名", "收藏16年", "有包厢", "有大桌"], address: "顺德区容桂商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "文华老友记", branch: "", rank: "C", area: "富华路", kind: "小吃快餐", price: 61, priceText: "¥61/人", rating: 3.9, reviews: 3083, distance: 1.8, x: 42, y: 46, vibe: "小吃快餐，适合临时补位", dishes: "粥粉面、小吃、快餐", queue: "评分偏低，不作为首选", tags: ["富华路小吃快餐热门第1名", "收藏14年", "可预订"], address: "顺德区富华路，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "杏坛公平靓正", branch: "大良店", rank: "B", area: "大良商圈", kind: "小吃快餐", price: 71, priceText: "¥71/人", rating: 4.1, reviews: 6242, distance: 2.1, x: 57, y: 56, vibe: "评论量高，适合大良附近不想复杂点菜时吃", dishes: "小吃快餐、简餐、顺德风味", queue: "评分一般，优先看当天排队", tags: ["小吃快餐热门第2名", "收藏4年", "有包厢", "有大桌"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "叮脆私房菜", branch: "近良店", rank: "B", area: "大良商圈", kind: "私房菜", price: 122, priceText: "¥122/人", rating: 4.0, reviews: 12879, distance: 2.6, x: 62, y: 45, vibe: "评论量很高，适合多人正餐备选", dishes: "私房菜、顺德菜、家常热菜", queue: "评分一般但热度高，建议对比近期评价", tags: ["私房菜热门第4名", "收藏18年", "有包厢", "有大桌"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "大良毋米粥", branch: "锦龙路总店", rank: "A", area: "大良商圈", kind: "顺德菜", price: 126, priceText: "¥126/人", rating: 4.7, reviews: 11802, distance: 1.6, x: 50, y: 34, vibe: "抵达午餐强候选，顺德特色明确，适合多人围桌", dishes: "毋米粥、粥底火锅、海鲜/鸡肉涮粥", queue: "截图显示 2026 年入围餐厅；热门饭点建议提前订位", tags: ["2026年入围餐厅", "收藏20年", "有包厢", "有大桌"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "欢姐伦教糕", branch: "北海大道北店", rank: "C", area: "伦教商圈", kind: "面包蛋糕", price: 24, priceText: "¥24/人", rating: 3.4, reviews: 1093, distance: 8.5, x: 27, y: 29, vibe: "伦教线伴手礼/点心，别当正餐", dishes: "伦教糕、糕点、伴手礼", queue: "评分偏低，适合顺路买少量试试", tags: ["收藏16年", "免费停车", "复古风格"], address: "顺德区伦教商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "黄连大头华烧鹅店", branch: "大良店", rank: "A", area: "大良商圈", kind: "烧腊", price: 106, priceText: "¥106/人", rating: 4.4, reviews: 4075, distance: 3.1, x: 65, y: 41, vibe: "烧鹅强候选，适合正餐加一道硬菜", dishes: "烧鹅、烧腊、鹅肝/鹅杂类", queue: "截图显示 2026 年入围餐厅；建议提前确认是否排队", tags: ["2026年入围餐厅", "收藏13年", "有大桌"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "红星光发煲仔饭", branch: "文海店", rank: "A", area: "容桂商圈", kind: "粤菜馆", price: 80, priceText: "¥80/人", rating: 4.3, reviews: 9350, distance: 12.5, x: 72, y: 61, vibe: "容桂线轻松吃，评论量大，适合不想点复杂菜", dishes: "煲仔饭、黄鳝饭、腊味饭", queue: "煲仔饭制作需要时间，饭点可能等位", tags: ["粤菜好评榜第4名", "收藏14年", "有包厢", "有大桌"], address: "顺德区容桂商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "椿咖啡", branch: "丽景楼店", rank: "B", area: "大良商圈", kind: "咖啡", price: 53, priceText: "¥53/人", rating: 4.4, reviews: 421, distance: 1.0, x: 45, y: 33, vibe: "下午歇脚、聊天、等位时很合适", dishes: "咖啡、轻食、甜品", queue: "不是饭点主力，适合休息", tags: ["收藏3年", "咖啡"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "粥球场·粥底火锅", branch: "", rank: "B", area: "大良商圈", kind: "小吃", price: 40, priceText: "¥40/人", rating: 4.2, reviews: 244, distance: 1.7, x: 54, y: 58, vibe: "想吃粥底但不想太贵时可作为轻量备选", dishes: "生滚粥、粥底火锅", queue: "评论量少，先看营业和现场人流", tags: ["小吃热门第9名", "有大桌", "免费停车"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "茗茶友煮", branch: "大良店", rank: "C", area: "大良商圈", kind: "快餐简餐", price: 48, priceText: "¥48/人", rating: 4.1, reviews: 1984, distance: 1.5, x: 40, y: 53, vibe: "截图显示暂停营业，先不作为可去选择", dishes: "茶饮、简餐、轻食", queue: "已标记暂停营业，去之前必须复核", tags: ["暂停营业", "有大桌", "免费停车"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "松记食店", branch: "", rank: "A", area: "杏坛商圈", kind: "火锅", price: 113, priceText: "¥113/人", rating: 4.7, reviews: 5310, distance: 18.0, x: 21, y: 71, vibe: "评分高，适合把杏坛作为专门一顿来安排", dishes: "火锅、顺德风味锅、多人围桌", queue: "截图显示 2026 年入围餐厅；离酒店远，适合专程", tags: ["2026年入围餐厅", "收藏19年", "付费停车"], address: "顺德区杏坛商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" }
+    ];
+
+    const areas = ["大良商圈", "富华路", "伦教商圈", "北滘商圈", "陈村商圈", "勒流商圈", "容桂商圈", "杏坛商圈"];
+    const routeNotes = {
+      "大良商圈": ["酒店所在主线", "收藏最密集，适合抵达当天"],
+      "富华路": ["靠近大良", "小吃快餐补位"],
+      "伦教商圈": ["酒店西北向", "天然居、伦教糕"],
+      "北滘商圈": ["偏北方向", "甜品顺路备选"],
+      "陈村商圈": ["偏东北方向", "适合返程或北上顺路"],
+      "勒流商圈": ["偏西南方向", "阿多私房菜可专程"],
+      "容桂商圈": ["偏东南方向", "猪肉婆、红星光发"],
+      "杏坛商圈": ["偏西南更远", "松记食店专程线"]
+    };
+
+    const q = document.querySelector("#q");
+    const area = document.querySelector("#area");
+    const kind = document.querySelector("#kind");
+    const rank = document.querySelector("#rank");
+    const sort = document.querySelector("#sort");
+    const rows = document.querySelector("#rows");
+    const cards = document.querySelector("#cards");
+    const empty = document.querySelector("#empty");
+    const countText = document.querySelector("#countText");
+
+    function amapUrl(item) {
+      const keyword = `${item.name} ${item.branch || ""} ${item.area} 顺德`;
+      return `https://uri.amap.com/search?keyword=${encodeURIComponent(keyword)}&city=${encodeURIComponent("佛山")}&view=map`;
+    }
+
+    function hotelRouteUrl(item) {
+      const keyword = `${item.name} ${item.branch || ""} ${item.address}`;
+      return `https://uri.amap.com/marker?name=${encodeURIComponent(keyword)}&coordinate=&src=shunde-food-map`;
+    }
+
+    function fillSelects() {
+      area.innerHTML = `<option value="">全部区域</option>` + areas.map(v => `<option value="${v}">${v}</option>`).join("");
+      const kinds = [...new Set(restaurants.map(x => x.kind))].sort();
+      kind.innerHTML = `<option value="">全部类型</option>` + kinds.map(v => `<option value="${v}">${v}</option>`).join("");
+    }
+
+    function getFiltered() {
+      const terms = q.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      let list = restaurants.filter(item => {
+        const hay = [item.name, item.branch, item.area, item.kind, item.vibe, item.dishes, item.queue, item.address, item.tags.join(" ")].join(" ").toLowerCase();
+        return (!terms.length || terms.some(term => hay.includes(term))) &&
+          (!area.value || item.area === area.value) &&
+          (!kind.value || item.kind === kind.value) &&
+          (!rank.value || item.rank === rank.value);
+      });
+      list = list.slice().sort((a, b) => {
+        if (sort.value === "distance") return a.distance - b.distance;
+        if (sort.value === "price") return a.price - b.price;
+        if (sort.value === "area") return areas.indexOf(a.area) - areas.indexOf(b.area) || a.rank.localeCompare(b.rank);
+        return a.rank.localeCompare(b.rank) || a.distance - b.distance;
+      });
+      return list;
+    }
+
+    function render() {
+      const list = getFiltered();
+      rows.innerHTML = list.map(item => `
+        <tr>
+          <td><span class="rank ${item.rank}">${item.rank}</span></td>
+          <td>
+            <strong>${item.name}</strong><br>
+            <span class="small">${item.branch || "截图未显示分店"} · ${item.rating} 分 · ${item.reviews} 条</span>
+            <div class="taglist">${item.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}</div>
+          </td>
+          <td>
+            ${item.area}<br>
+            <span class="small">约 ${item.distance}km</span>
+          </td>
+          <td>
+            ${item.priceText}<br>
+            <span class="small">${item.kind} · ${item.rating} 分</span>
+          </td>
+          <td>
+            ${item.vibe}<br>
+            <span class="small">招牌/方向：${item.dishes}</span>
+          </td>
+          <td>
+            <a class="link" target="_blank" rel="noreferrer" href="${amapUrl(item)}">高德搜索</a><br>
+            <a class="link secondary" target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=${encodeURIComponent(hotel + " 到 " + item.name + " " + item.area)}&city=${encodeURIComponent("佛山")}">查路线</a>
+          </td>
+        </tr>
+      `).join("");
+      cards.innerHTML = list.map(item => `
+        <article class="restaurant-card">
+          <div class="card-head">
+            <span class="rank ${item.rank}">${item.rank}</span>
+            <div>
+              <div class="card-title">${item.name}</div>
+              <div class="meta-line">${item.branch || "截图未显示分店"} · ${item.rating} 分 · ${item.reviews} 条 · ${item.priceText}</div>
+            </div>
+          </div>
+          <div class="taglist">${item.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}</div>
+          <div class="card-grid">
+            <div class="info-box"><b>位置</b>${item.area} · 约 ${item.distance}km<br><span class="small">${item.address}</span></div>
+            <div class="info-box"><b>适合</b>${item.vibe}</div>
+            <div class="info-box"><b>吃什么</b>${item.dishes}</div>
+            <div class="info-box"><b>注意</b>${item.queue}</div>
+          </div>
+          <div class="card-actions">
+            <a class="link" target="_blank" rel="noreferrer" href="${amapUrl(item)}">高德搜索</a>
+            <a class="link secondary" target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=${encodeURIComponent(hotel + " 到 " + item.name + " " + item.area)}&city=${encodeURIComponent("佛山")}">从酒店查路线</a>
+          </div>
+        </article>
+      `).join("");
+      empty.hidden = list.length > 0;
+      countText.textContent = `当前显示 ${list.length} / ${restaurants.length} 家`;
+      renderRoute(list);
+    }
+
+    function renderStats() {
+      document.querySelector("#statTotal").textContent = restaurants.length;
+      document.querySelector("#statA").textContent = restaurants.filter(x => x.rank === "A").length;
+      document.querySelector("#statNear").textContent = restaurants.filter(x => x.distance <= 1.6).length;
+    }
+
+    function renderRoute(list = getFiltered()) {
+      renderVisualMap(list);
+      const route = document.querySelector("#route");
+      route.innerHTML = areas.map(areaName => {
+        const names = list.filter(x => x.area === areaName).map(x => x.name);
+        const notes = routeNotes[areaName] || [];
+        return `<div class="zone">
+          <b>${areaName}</b>
+          <span class="small">${notes.join("；")}</span>
+          <ul>${names.map(n => `<li>${n}</li>`).join("") || "<li>待补充</li>"}</ul>
+        </div>`;
+      }).join("");
+    }
+
+    function renderVisualMap(list = getFiltered()) {
+      const map = document.querySelector("#visualMap");
+      const existing = map.querySelectorAll(".pin, .map-label");
+      existing.forEach(el => el.remove());
+      const labels = [
+        ["酒店/清晖园", 49, 31],
+        ["伦教", 27, 24],
+        ["北滘", 46, 9],
+        ["陈村", 73, 13],
+        ["勒流", 31, 63],
+        ["容桂", 73, 73],
+        ["杏坛", 19, 77]
+      ];
+      labels.forEach(([text, x, y]) => {
+        const label = document.createElement("div");
+        label.className = "map-label";
+        label.style.left = `${x}%`;
+        label.style.top = `${y}%`;
+        label.textContent = text;
+        map.appendChild(label);
+      });
+      list.forEach((item, idx) => {
+        const pin = document.createElement("button");
+        pin.type = "button";
+        pin.className = `pin ${item.rank}`;
+        pin.style.left = `${item.x}%`;
+        pin.style.top = `${item.y}%`;
+        pin.dataset.index = idx + 1;
+        pin.title = `${item.name}｜${item.area}｜${item.priceText}`;
+        pin.addEventListener("click", () => showMapDetail(item, pin));
+        map.appendChild(pin);
+      });
+      if (list.length) showMapDetail(list[0]);
+      else document.querySelector("#mapDetail").innerHTML = `<b>当前筛选没有餐厅</b><p class="small">换个区域或清空筛选即可恢复地图点位。</p>`;
+    }
+
+    function showMapDetail(item, activePin) {
+      document.querySelectorAll(".pin.active").forEach(pin => pin.classList.remove("active"));
+      if (activePin) activePin.classList.add("active");
+      document.querySelector("#mapDetail").innerHTML = `
+        <b>${item.name}</b>
+        <p class="small">${item.branch || "截图未显示分店"} · ${item.area} · ${item.rating} 分 · ${item.reviews} 条 · ${item.priceText}</p>
+        <p>${item.vibe}</p>
+        <p class="small">地址线索：${item.address}</p>
+        <div class="chips">
+          <a class="link" target="_blank" rel="noreferrer" href="${amapUrl(item)}">高德搜索这家</a>
+          <a class="link secondary" target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=${encodeURIComponent(hotel + " 到 " + item.name + " " + item.area)}&city=${encodeURIComponent("佛山")}">从酒店查路线</a>
+        </div>
+      `;
+    }
+
+    function exportCsv() {
+      const headers = ["推荐等级","餐厅","分店","区域","距酒店约km","类型","人均","适合场景","招牌菜","地址","风险提示","来源","高德搜索"];
+      const lines = [headers, ...getFiltered().map(item => [
+        item.rank, item.name, item.branch, item.area, item.distance, item.kind, item.priceText, item.vibe, item.dishes, item.address, item.queue, item.source, amapUrl(item)
+      ])].map(row => row.map(cell => `"${String(cell).replaceAll('"', '""')}"`).join(","));
+      const blob = new Blob(["\ufeff" + lines.join("\n")], { type: "text/csv;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "顺德餐厅筛选.csv";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function makeTempList() {
+      const box = document.querySelector("#tempList");
+      const names = document.querySelector("#rawNames").value
+        .split(/\n+/)
+        .map(x => x.trim())
+        .filter(Boolean);
+      if (!names.length) {
+        box.textContent = "还没有导入餐厅名。";
+        return;
+      }
+      box.innerHTML = names.map((name, idx) => {
+        const url = `https://uri.amap.com/search?keyword=${encodeURIComponent(name + " 顺德")}&city=${encodeURIComponent("佛山")}&view=map`;
+        return `<p><strong>${idx + 1}. ${name}</strong><br><a class="link" target="_blank" rel="noreferrer" href="${url}">高德搜索</a></p>`;
+      }).join("");
+    }
+
+    [q, area, kind, rank, sort].forEach(el => el.addEventListener("input", render));
+    document.querySelector("#reset").addEventListener("click", () => {
+      q.value = ""; area.value = ""; kind.value = ""; rank.value = ""; sort.value = "rank"; render();
+    });
+    document.querySelectorAll("[data-quick]").forEach(button => {
+      button.addEventListener("click", () => {
+        const mode = button.dataset.quick;
+        q.value = ""; area.value = ""; kind.value = ""; rank.value = ""; sort.value = "rank";
+        if (mode === "A") rank.value = "A";
+        if (mode === "near") area.value = "大良商圈";
+        if (mode === "light") q.value = "小吃 甜品 咖啡 冰淇淋 茶饮";
+        render();
+        document.querySelector("#table").scrollIntoView({ behavior: "smooth" });
+      });
+    });
+    document.querySelector("#exportCsv").addEventListener("click", exportCsv);
+    document.querySelector("#makeTemp").addEventListener("click", makeTempList);
+    document.querySelector("#clearTemp").addEventListener("click", () => {
+      document.querySelector("#rawNames").value = "";
+      makeTempList();
+    });
+
+    fillSelects();
+    renderStats();
+    renderRoute();
+    render();
+  </script>
+</body>
+</html>
