@@ -590,8 +590,8 @@
           <button class="btn primary" type="button" data-quick="A">只看优先去</button>
           <button class="btn" type="button" data-quick="near">酒店附近/大良</button>
           <button class="btn" type="button" data-quick="light">轻松小吃甜品</button>
-          <button class="btn" type="button" data-quick="reset">看全部</button>
         </div>
+        <button class="btn primary" id="toggleListTop" type="button" hidden>展开更多</button>
         <div class="card-list" id="cards"></div>
         <button class="btn primary" id="toggleList" type="button" hidden>展开更多</button>
         <div class="table-wrap">
@@ -862,19 +862,15 @@
           </div>
         </article>
       `).join("");
-      const toggle = document.querySelector("#toggleList");
-      toggle.hidden = list.length <= 5;
-      toggle.textContent = listExpanded ? "收起列表" : `展开全部 ${list.length} 个`;
+      const toggleButtons = [document.querySelector("#toggleListTop"), document.querySelector("#toggleList")];
+      toggleButtons.forEach(toggle => {
+        toggle.hidden = list.length <= 5;
+        toggle.textContent = listExpanded ? "收起列表" : `展开全部 ${list.length} 个`;
+      });
       empty.hidden = list.length > 0;
       countText.textContent = `当前显示 ${list.length} / ${allPlaces().length} 项，其中朋友补充 ${friendPlaces.length} 项`;
       renderRoute();
       renderFriendList();
-    }
-
-    function renderStats() {
-      document.querySelector("#statTotal").textContent = allPlaces().length;
-      document.querySelector("#statA").textContent = allPlaces().filter(x => x.rank === "A").length;
-      document.querySelector("#statNear").textContent = allPlaces().filter(x => x.distance <= 1.6).length;
     }
 
     function renderRoute() {
@@ -1002,7 +998,6 @@
         submitStatus.textContent = "共建接口未连接，暂时不能同步提交";
       }
       fillSelects();
-      renderStats();
       render();
     }
 
@@ -1054,16 +1049,17 @@
         document.querySelector("#table").scrollIntoView({ behavior: "smooth" });
       });
     });
-    document.querySelector("#toggleList").addEventListener("click", () => {
-      listExpanded = !listExpanded;
-      render();
+    [document.querySelector("#toggleListTop"), document.querySelector("#toggleList")].forEach(button => {
+      button.addEventListener("click", () => {
+        listExpanded = !listExpanded;
+        render();
+      });
     });
     document.querySelector("#exportCsv").addEventListener("click", exportCsv);
     document.querySelector("#submitPlace").addEventListener("click", submitFriendPlace);
     document.querySelector("#clearPlace").addEventListener("click", clearPlaceForm);
 
     fillSelects();
-    renderStats();
     renderRoute();
     render();
     loadFriendPlaces();
