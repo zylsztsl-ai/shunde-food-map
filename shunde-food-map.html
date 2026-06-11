@@ -868,7 +868,7 @@
       toggle.textContent = listExpanded ? "收起列表" : `展开全部 ${list.length} 个`;
       empty.hidden = list.length > 0;
       countText.textContent = `当前显示 ${list.length} / ${allPlaces().length} 项，其中朋友补充 ${friendPlaces.length} 项`;
-      renderRoute(list);
+      renderRoute();
       renderFriendList();
     }
 
@@ -878,7 +878,8 @@
       document.querySelector("#statNear").textContent = allPlaces().filter(x => x.distance <= 1.6).length;
     }
 
-    function renderRoute(list = getFiltered()) {
+    function renderRoute() {
+      const list = allPlaces();
       renderVisualMap(list);
       const route = document.querySelector("#route");
       route.innerHTML = areas.map(areaName => {
@@ -892,7 +893,7 @@
       }).join("");
     }
 
-    function renderVisualMap(list = getFiltered()) {
+    function renderVisualMap(list = allPlaces()) {
       const map = document.querySelector("#visualMap");
       const existing = map.querySelectorAll(".pin, .map-label, .district-region");
       existing.forEach(el => el.remove());
