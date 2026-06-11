@@ -98,11 +98,7 @@
       border-color: var(--brand);
     }
     .hero {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 18px;
-      align-items: stretch;
-      padding: 26px 0 16px;
+      padding: 16px 0 8px;
     }
     .panel {
       background: var(--card);
@@ -120,8 +116,8 @@
       background-position: center;
       color: #fff;
       border-radius: 8px;
-      min-height: 330px;
-      padding: 28px;
+      min-height: 188px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -150,20 +146,7 @@
       color: #5f3d05;
       font-size: 14px;
     }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .stat {
-      background: #f8f6f1;
-      border-radius: 8px;
-      padding: 12px;
-      border: 1px solid var(--line);
-    }
-    .stat b { display: block; font-size: 22px; color: var(--brand); }
-    .section { padding: 18px 0; }
+    .section { padding: 12px 0; }
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -224,24 +207,24 @@
     }
     .card-list {
       display: none;
-      gap: 12px;
+      gap: 8px;
     }
     .restaurant-card {
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 14px;
+      padding: 10px;
       box-shadow: 0 6px 18px rgba(30, 41, 59, 0.06);
     }
     .card-head {
       display: grid;
-      grid-template-columns: 34px 1fr;
-      gap: 10px;
+      grid-template-columns: 30px 1fr;
+      gap: 8px;
       align-items: start;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .card-title {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
       line-height: 1.25;
     }
@@ -250,28 +233,18 @@
       font-size: 13px;
       margin-top: 3px;
     }
-    .card-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 9px;
-      margin: 10px 0;
-    }
-    .info-box {
+    .card-compact {
       background: #f8fafc;
       border-radius: 8px;
-      padding: 9px;
+      padding: 8px;
       font-size: 13px;
-    }
-    .info-box b {
-      display: block;
-      color: #334155;
-      margin-bottom: 2px;
+      margin-top: 7px;
     }
     .card-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 10px;
+      gap: 7px;
+      margin-top: 8px;
     }
     .card-actions .link {
       width: 100%;
@@ -299,8 +272,8 @@
     tr:last-child td { border-bottom: 0; }
     .rank {
       display: inline-flex;
-      width: 34px;
-      height: 26px;
+      width: 28px;
+      height: 24px;
       align-items: center;
       justify-content: center;
       border-radius: 999px;
@@ -314,7 +287,7 @@
     .taglist { display: flex; flex-wrap: wrap; gap: 5px; }
     .tag {
       display: inline-block;
-      padding: 3px 7px;
+      padding: 2px 7px;
       border-radius: 999px;
       background: #f1f5f9;
       color: #475569;
@@ -346,13 +319,26 @@
       border-radius: 8px;
       overflow: hidden;
       background:
-        linear-gradient(90deg, rgba(15,118,110,0.06) 1px, transparent 1px),
-        linear-gradient(rgba(15,118,110,0.06) 1px, transparent 1px),
-        radial-gradient(circle at 42% 38%, rgba(15,118,110,0.16), transparent 24%),
-        radial-gradient(circle at 67% 66%, rgba(217,119,6,0.16), transparent 22%),
+        radial-gradient(circle at 50% 41%, rgba(15,118,110,0.15), transparent 20%),
+        radial-gradient(circle at 70% 66%, rgba(217,119,6,0.13), transparent 18%),
+        radial-gradient(circle at 29% 31%, rgba(14,116,144,0.12), transparent 15%),
         #fffdf8;
-      background-size: 42px 42px, 42px 42px, auto, auto, auto;
     }
+    .district-region {
+      position: absolute;
+      border: 1px solid rgba(15, 118, 110, 0.18);
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.08);
+      color: rgba(31, 41, 51, 0.72);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+      pointer-events: none;
+    }
+    .district-region.orange { background: rgba(217,119,6,0.09); border-color: rgba(217,119,6,0.18); }
+    .district-region.blue { background: rgba(14,116,144,0.08); border-color: rgba(14,116,144,0.18); }
     .map-water {
       position: absolute;
       left: -6%;
@@ -478,11 +464,10 @@
     }
     @media (max-width: 860px) {
       .topbar .wrap { align-items: flex-start; flex-direction: column; }
-      .hero, .grid-3, .import-grid, .source-list, .map-layout { grid-template-columns: 1fr; }
-      .hero-main { min-height: 300px; padding: 20px; }
+      .grid-3, .import-grid, .source-list, .map-layout { grid-template-columns: 1fr; }
+      .hero-main { min-height: 166px; padding: 18px; }
       .filters { grid-template-columns: 1fr 1fr; }
       .quick-actions { grid-template-columns: 1fr 1fr; }
-      .stats { grid-template-columns: 1fr 1fr 1fr; }
       .visual-map { min-height: 430px; }
       .table-wrap { display: none; }
       .card-list { display: grid; }
@@ -493,12 +478,11 @@
       .nav { width: 100%; }
       .filters { grid-template-columns: 1fr; }
       .quick-actions { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: 1fr; }
       .panel { padding: 14px; }
-      .hero-main { min-height: 290px; }
+      .hero-main { min-height: 156px; }
       .zone-list { grid-template-columns: 1fr; }
       .pin { width: 24px; height: 24px; }
-      .card-grid, .card-actions { grid-template-columns: 1fr; }
+      .card-actions { grid-template-columns: 1fr 1fr; }
       h1 { font-size: 27px; }
     }
     @media print {
@@ -533,30 +517,10 @@
     <section class="hero">
       <div class="hero-main">
         <div>
-          <div class="chips">
-            <span class="chip">2026-06-12 到 06-14</span>
-            <span class="chip">口碑优先</span>
-            <span class="chip">轻松随便吃</span>
-            <span class="chip">高德一键搜索</span>
-          </div>
           <h1>到顺德以后，先别在群里吵半小时吃什么。</h1>
-          <p>这页已经按你发来的大众点评顺德收藏截图整理了 30 家店，按“优先去、顺路备选、需确认”分层，配合可视化点位和高德地图搜索链接。</p>
+          <p>按口碑、顺路和同学补充一起选，点按钮直接跳高德。</p>
         </div>
       </div>
-      <aside class="panel">
-        <h2>使用口径</h2>
-        <p class="notice">当前是截图识别版：店名、评分、人均、商圈来自你发来的大众点评长截图；精确门牌号先用高德搜索确认，避免把截图里没有的信息写死。</p>
-        <div class="stats">
-          <div class="stat"><b id="statTotal">0</b><span>候选店</span></div>
-          <div class="stat"><b id="statA">0</b><span>优先去</span></div>
-          <div class="stat"><b id="statNear">0</b><span>酒店附近</span></div>
-        </div>
-        <div class="chips">
-          <span class="chip">A = 名气/代表性强</span>
-          <span class="chip">B = 顺路好补位</span>
-          <span class="chip">C = 先确认再去</span>
-        </div>
-      </aside>
     </section>
 
     <section id="picks" class="section">
@@ -585,7 +549,7 @@
 
     <section id="table" class="section">
       <div class="panel">
-        <h2>筛选表格</h2>
+        <h2>餐厅列表</h2>
         <div class="filters">
           <div>
             <label for="q">搜索店名、菜品、标签</label>
@@ -630,6 +594,7 @@
           <button class="btn" type="button" data-quick="reset">看全部</button>
         </div>
         <div class="card-list" id="cards"></div>
+        <button class="btn primary" id="toggleList" type="button" hidden>展开更多</button>
         <div class="table-wrap">
           <table>
             <thead>
@@ -672,32 +637,17 @@
         <h2>大家一起补充</h2>
         <div class="import-grid">
           <div>
-            <p>朋友想加餐厅或景点，可以直接填这里。提交后会同步到大家的列表和地图里，先标记为“朋友补充/待确认”。</p>
+            <p>朋友只要填想去的餐厅或景点名。提交后会自动匹配类型、区域和地图点位，匹配不到就先放到“待确认”。</p>
             <div class="filters" style="grid-template-columns: 1fr 1fr;">
               <div>
                 <label for="placeName">名称</label>
                 <input id="placeName" placeholder="例如：清晖园 / 猪肉婆私房菜" />
               </div>
               <div>
-                <label for="placeType">类型</label>
-                <select id="placeType">
-                  <option value="餐厅">餐厅</option>
-                  <option value="景点">景点</option>
-                  <option value="甜品/咖啡">甜品/咖啡</option>
-                  <option value="其他">其他</option>
-                </select>
-              </div>
-              <div>
-                <label for="placeArea">区域</label>
-                <select id="placeArea"></select>
-              </div>
-              <div>
                 <label for="submitter">谁推荐的</label>
                 <input id="submitter" placeholder="例如：阿龙 / 老同学A" />
               </div>
             </div>
-            <label for="placeNote">推荐理由或备注</label>
-            <textarea id="placeNote" placeholder="例如：想去拍照 / 同学推荐鱼生 / 离酒店近 / 需要订位"></textarea>
             <div class="chips">
               <button class="btn primary" id="submitPlace" type="button">提交到大家列表</button>
               <button class="btn" id="clearPlace" type="button">清空</button>
@@ -709,7 +659,7 @@
             <div class="import-output" id="tempList">正在读取...</div>
           </div>
         </div>
-        <p class="notice" style="margin-top: 14px;">复核建议：朋友补充项不会自动判断真假、营业状态和精确门牌；真正出发前点“高德搜索”再确认一次。</p>
+        <p class="notice" style="margin-top: 14px;">复核建议：自动匹配只帮你们归类和放到地图上，真正出发前点“高德搜索”再确认门牌、营业和排队。</p>
       </div>
     </section>
 
@@ -795,6 +745,7 @@
     const empty = document.querySelector("#empty");
     const countText = document.querySelector("#countText");
     const submitStatus = document.querySelector("#submitStatus");
+    let listExpanded = false;
 
     function allPlaces() {
       return restaurants.concat(friendPlaces);
@@ -840,7 +791,6 @@
 
     function fillSelects() {
       area.innerHTML = `<option value="">全部区域</option>` + areas.map(v => `<option value="${v}">${v}</option>`).join("");
-      document.querySelector("#placeArea").innerHTML = areas.map(v => `<option value="${v}">${v}</option>`).join("");
       const kinds = [...new Set(allPlaces().map(x => x.kind))].sort();
       kind.innerHTML = `<option value="">全部类型</option>` + kinds.map(v => `<option value="${v}">${v}</option>`).join("");
     }
@@ -865,6 +815,7 @@
 
     function render() {
       const list = getFiltered();
+      const visibleCards = listExpanded ? list : list.slice(0, 5);
       rows.innerHTML = list.map(item => `
         <tr>
           <td><span class="rank ${item.rank}">${item.rank}</span></td>
@@ -891,7 +842,7 @@
           </td>
         </tr>
       `).join("");
-      cards.innerHTML = list.map(item => `
+      cards.innerHTML = visibleCards.map(item => `
         <article class="restaurant-card">
           <div class="card-head">
             <span class="rank ${item.rank}">${item.rank}</span>
@@ -901,11 +852,10 @@
             </div>
           </div>
           <div class="taglist">${item.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}</div>
-          <div class="card-grid">
-            <div class="info-box"><b>位置</b>${item.area} · 约 ${item.distance}km<br><span class="small">${item.address}</span></div>
-            <div class="info-box"><b>适合</b>${item.vibe}</div>
-            <div class="info-box"><b>吃什么</b>${item.dishes}</div>
-            <div class="info-box"><b>注意</b>${item.queue}</div>
+          <div class="card-compact">
+            <strong>${item.area}</strong> · 约 ${item.distance}km<br>
+            ${item.vibe}<br>
+            <span class="small">${item.dishes}</span>
           </div>
           <div class="card-actions">
             <a class="link" target="_blank" rel="noreferrer" href="${amapUrl(item)}">高德搜索</a>
@@ -913,6 +863,9 @@
           </div>
         </article>
       `).join("");
+      const toggle = document.querySelector("#toggleList");
+      toggle.hidden = list.length <= 5;
+      toggle.textContent = listExpanded ? "收起列表" : `展开全部 ${list.length} 个`;
       empty.hidden = list.length > 0;
       countText.textContent = `当前显示 ${list.length} / ${allPlaces().length} 项，其中朋友补充 ${friendPlaces.length} 项`;
       renderRoute(list);
@@ -941,17 +894,32 @@
 
     function renderVisualMap(list = getFiltered()) {
       const map = document.querySelector("#visualMap");
-      const existing = map.querySelectorAll(".pin, .map-label");
+      const existing = map.querySelectorAll(".pin, .map-label, .district-region");
       existing.forEach(el => el.remove());
+      const regions = [
+        ["北滘", 42, 9, 18, 12, "blue"],
+        ["陈村", 66, 12, 18, 12, "blue"],
+        ["伦教", 21, 25, 20, 14, "blue"],
+        ["大良 / 酒店", 38, 33, 28, 22, ""],
+        ["勒流", 25, 56, 20, 14, ""],
+        ["容桂", 62, 63, 22, 18, "orange"],
+        ["杏坛", 12, 70, 20, 14, "orange"],
+        ["待确认", 74, 42, 18, 12, ""]
+      ];
+      regions.forEach(([text, left, top, width, height, tone]) => {
+        const region = document.createElement("div");
+        region.className = `district-region ${tone}`;
+        region.style.left = `${left}%`;
+        region.style.top = `${top}%`;
+        region.style.width = `${width}%`;
+        region.style.height = `${height}%`;
+        region.textContent = text;
+        map.appendChild(region);
+      });
       const labels = [
-        ["酒店/清晖园", 49, 31],
-        ["伦教", 27, 24],
-        ["北滘", 46, 9],
-        ["陈村", 73, 13],
-        ["勒流", 31, 63],
-        ["容桂", 73, 73],
-        ["杏坛", 19, 77],
-        ["待确认", 82, 42]
+        ["清晖园", 50, 32],
+        ["容桂渔人码头", 72, 71],
+        ["顺峰山/欢乐海岸", 57, 47]
       ];
       labels.forEach(([text, x, y]) => {
         const label = document.createElement("div");
@@ -1041,10 +1009,7 @@
     async function submitFriendPlace() {
       const payload = {
         name: document.querySelector("#placeName").value.trim(),
-        type: document.querySelector("#placeType").value,
-        area: document.querySelector("#placeArea").value,
-        submitter: document.querySelector("#submitter").value.trim(),
-        note: document.querySelector("#placeNote").value.trim()
+        submitter: document.querySelector("#submitter").value.trim()
       };
       if (!payload.name) {
         submitStatus.textContent = "先填名称，再提交。";
@@ -1060,7 +1025,6 @@
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
         document.querySelector("#placeName").value = "";
-        document.querySelector("#placeNote").value = "";
         submitStatus.textContent = "已提交，正在刷新列表...";
         await loadFriendPlaces();
       } catch (err) {
@@ -1070,14 +1034,13 @@
 
     function clearPlaceForm() {
       document.querySelector("#placeName").value = "";
-      document.querySelector("#placeNote").value = "";
       document.querySelector("#submitter").value = "";
       submitStatus.textContent = friendPlaces.length ? `已同步 ${friendPlaces.length} 条朋友补充` : "表单已清空";
     }
 
-    [q, area, kind, rank, sort].forEach(el => el.addEventListener("input", render));
+    [q, area, kind, rank, sort].forEach(el => el.addEventListener("input", () => { listExpanded = false; render(); }));
     document.querySelector("#reset").addEventListener("click", () => {
-      q.value = ""; area.value = ""; kind.value = ""; rank.value = ""; sort.value = "rank"; render();
+      q.value = ""; area.value = ""; kind.value = ""; rank.value = ""; sort.value = "rank"; listExpanded = false; render();
     });
     document.querySelectorAll("[data-quick]").forEach(button => {
       button.addEventListener("click", () => {
@@ -1086,9 +1049,14 @@
         if (mode === "A") rank.value = "A";
         if (mode === "near") area.value = "大良商圈";
         if (mode === "light") q.value = "小吃 甜品 咖啡 冰淇淋 茶饮";
+        listExpanded = false;
         render();
         document.querySelector("#table").scrollIntoView({ behavior: "smooth" });
       });
+    });
+    document.querySelector("#toggleList").addEventListener("click", () => {
+      listExpanded = !listExpanded;
+      render();
     });
     document.querySelector("#exportCsv").addEventListener("click", exportCsv);
     document.querySelector("#submitPlace").addEventListener("click", submitFriendPlace);
