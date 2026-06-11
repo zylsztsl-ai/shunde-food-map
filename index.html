@@ -243,7 +243,7 @@
     }
     .card-actions {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 7px;
       margin-top: 8px;
     }
@@ -306,8 +306,31 @@
       text-decoration: none;
       font-size: 13px;
       white-space: nowrap;
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
     }
     .link.secondary { background: #334155; }
+    .link.subtle {
+      background: #f1f5f9;
+      color: #334155;
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(520px, calc(100vw - 28px));
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.92);
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.45;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.22);
+      z-index: 20;
+    }
+    .toast[hidden] { display: none; }
     .map-layout {
       display: grid;
       grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
@@ -341,25 +364,10 @@
     .district-region.orange { background: rgba(217,119,6,0.09); border-color: rgba(217,119,6,0.18); }
     .district-region.blue { background: rgba(14,116,144,0.08); border-color: rgba(14,116,144,0.18); }
     .map-water {
-      position: absolute;
-      left: -6%;
-      right: -6%;
-      top: 52%;
-      height: 62px;
-      transform: rotate(-13deg);
-      background: rgba(14, 116, 144, 0.12);
-      border-top: 1px solid rgba(14, 116, 144, 0.18);
-      border-bottom: 1px solid rgba(14, 116, 144, 0.18);
+      display: none;
     }
     .map-road {
-      position: absolute;
-      left: 12%;
-      right: 8%;
-      top: 41%;
-      height: 8px;
-      transform: rotate(18deg);
-      border-radius: 999px;
-      background: rgba(217, 119, 6, 0.2);
+      display: none;
     }
     .map-label {
       position: absolute;
@@ -481,7 +489,7 @@
       .hero-main { min-height: 156px; }
       .zone-list { grid-template-columns: 1fr; }
       .pin { width: 24px; height: 24px; }
-      .card-actions { grid-template-columns: 1fr 1fr; }
+      .card-actions { grid-template-columns: 1fr; }
       h1 { font-size: 27px; }
     }
     @media print {
@@ -517,7 +525,7 @@
       <div class="hero-main">
         <div>
           <h1>到顺德以后，先别在群里吵半小时吃什么。</h1>
-          <p>按口碑、顺路和同学补充一起选，点按钮直接跳高德。</p>
+          <p>按口碑、顺路和同学补充一起选；微信内先复制店名，后续补经纬度再直开微信地图。</p>
         </div>
       </div>
     </section>
@@ -529,19 +537,19 @@
           <span class="label">抵达午餐</span>
           <h3>大良近酒店：毋米粥 / 烧鹅 / 私房菜</h3>
           <p>中午刚到，优先别跑太远。正餐先看大良毋米粥、黄连大头华烧鹅店、尧记私房菜；想轻松一点就选方趣冰店、民骏凉茶、粥球场。</p>
-          <a class="link" target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%28%E9%A1%BA%E5%BE%B7%E6%B8%85%E6%99%96%E5%9B%AD%E5%8D%8E%E7%9B%96%E8%B7%AF%E5%BA%97%29&city=%E4%BD%9B%E5%B1%B1">打开酒店位置</a>
+          <button class="link map-action" type="button" data-map-query="全季酒店 顺德清晖园华盖路店 佛山" data-name="全季酒店(顺德清晖园华盖路店)" data-address="顺德清晖园华盖路">复制酒店名</button>
         </article>
         <article class="panel pick">
           <span class="label orange">下午小吃</span>
           <h3>大良商圈先消化，下午再喝糖水咖啡</h3>
           <p>你收藏里大良密度最高，适合清晖园、华盖路、附近咖啡和小吃一起走。方趣冰店、椿咖啡、野生选手都可以当饭后缓冲。</p>
-          <a class="link" target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=%E9%A1%BA%E5%BE%B7%20%E9%87%91%E6%A6%9C%E7%89%9B%E4%B9%B3%E6%96%87%E5%8C%96%E8%A1%97&city=%E4%BD%9B%E5%B1%B1">搜金榜街</a>
+          <button class="link map-action" type="button" data-map-query="顺德 金榜牛乳文化街 佛山" data-name="金榜牛乳文化街" data-address="顺德大良">复制金榜街</button>
         </article>
         <article class="panel pick">
           <span class="label red">专门一顿</span>
           <h3>容桂/伦教/北滘适合专门拉一条线</h3>
           <p>猪肉婆、红星光发在容桂，天然居和欢姐伦教糕在伦教，大树头在北滘。它们不适合临时“随便走过去”，更适合单独安排半天。</p>
-          <a class="link" target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=%E9%A1%BA%E5%BE%B7%20%E5%AE%B9%E6%A1%82%E6%B8%94%E4%BA%BA%E7%A0%81%E5%A4%B4&city=%E4%BD%9B%E5%B1%B1">搜容桂渔人码头</a>
+          <button class="link map-action" type="button" data-map-query="顺德 容桂渔人码头 佛山" data-name="容桂渔人码头" data-address="顺德容桂">复制渔人码头</button>
         </article>
       </div>
     </section>
@@ -623,12 +631,12 @@
         <aside class="map-side">
           <div class="map-detail" id="mapDetail">
             <b>点地图上的餐厅</b>
-            <p class="small">会显示商圈、人均、截图地址线索和高德搜索入口。</p>
+            <p class="small">会显示商圈、人均和截图地址线索。微信原生地图需要真实经纬度，当前先复制店名搜索。</p>
           </div>
           <div class="zone-list" id="route"></div>
         </aside>
       </div>
-      <p class="small" style="margin-top:10px;">说明：这是根据截图商圈做的可视化相对地图，方便同学讨论选店；精确导航以点开后的高德结果为准。</p>
+      <p class="small" style="margin-top:10px;">说明：这是根据截图商圈做的可视化相对地图，方便同学讨论选店；精确导航要等补齐真实经纬度后再接微信内置地图。</p>
     </section>
 
     <section id="contribute" class="section">
@@ -658,7 +666,7 @@
             <div class="import-output" id="tempList">正在读取...</div>
           </div>
         </div>
-        <p class="notice" style="margin-top: 14px;">复核建议：自动匹配只帮你们归类和放到地图上，真正出发前点“高德搜索”再确认门牌、营业和排队。</p>
+        <p class="notice" style="margin-top: 14px;">复核建议：自动匹配只帮你们归类和放到地图上，真正出发前用店名在微信地图里确认门牌、营业和排队。</p>
       </div>
     </section>
 
@@ -666,47 +674,48 @@
       <h2>信息来源与复核提醒</h2>
       <ul class="source-list">
         <li>你提供的大众点评收藏长截图<br><span class="small">用于 30 家餐厅的店名、分店、评分、评论量、人均、菜系和商圈。</span></li>
-        <li><a target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=%E9%A1%BA%E5%BE%B7%E7%BE%8E%E9%A3%9F&city=%E4%BD%9B%E5%B1%B1">高德地图搜索</a><br><span class="small">用于现场打开精确门牌、路线、营业状态和距离。</span></li>
+        <li>微信地图搜索<br><span class="small">当前先复制店名搜索；补齐经纬度和微信授权后，可升级为直接打开微信内置地图。</span></li>
         <li>页面内可视化地图<br><span class="small">按截图商圈做相对位置，不替代导航地图。</span></li>
       </ul>
-      <p class="small">更新时间：2026-06-11 16:41 截图版。人均、营业时间、排队和分店状态会变，出发前请用高德/大众点评再确认一次。</p>
+      <p class="small">更新时间：2026-06-11 16:41 截图版。人均、营业时间、排队和分店状态会变，出发前请用微信地图/大众点评再确认一次。</p>
     </section>
   </main>
+  <div class="toast" id="toast" hidden></div>
 
   <script>
     const hotel = "全季酒店(顺德清晖园华盖路店)";
     const API_URL = window.SHUNDE_API_URL || "https://shunde-food-api.zylsztsl.workers.dev";
     const restaurants = [
-      { name: "天然居", branch: "伦教店", rank: "A", area: "伦教商圈", kind: "顺德菜", price: 85, priceText: "¥85/人", rating: 4.5, reviews: 2059, distance: 8.5, x: 31, y: 34, vibe: "适合专门安排伦教线，环境和桌位更像正餐聚会", dishes: "顺德菜、家常菜、多人围桌菜", queue: "截图显示有包厢、有大桌；周末仍建议提前确认订位", tags: ["收藏18年", "有包厢", "有大桌", "伦教线"], address: "顺德区伦教商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "新基豆腐店", branch: "", rank: "C", area: "大良商圈", kind: "小吃快餐", price: 32, priceText: "¥32/人", rating: 3.8, reviews: 982, distance: 1.5, x: 51, y: 39, vibe: "预算友好，适合随便垫一顿或尝豆腐小吃", dishes: "豆腐、煎炸小吃、快餐简餐", queue: "评分偏低，作为路过备选更合适", tags: ["收藏7年", "轻松吃", "预算友好"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "方趣冰店", branch: "", rank: "A", area: "大良商圈", kind: "冰淇淋", price: 19, priceText: "¥19/人", rating: 4.7, reviews: 603, distance: 1.3, x: 48, y: 36, vibe: "饭后甜品或下午散步补点，轻松不占胃", dishes: "冰淇淋、雪糕、冷饮甜品", queue: "小店型选择，专门当正餐不合适", tags: ["口味榜第1名", "收藏5年", "甜品"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "尧记私房菜", branch: "", rank: "A", area: "大良商圈", kind: "私房菜", price: 116, priceText: "¥116/人", rating: 4.6, reviews: 950, distance: 1.8, x: 53, y: 42, vibe: "离酒店所在大良主线近，适合同学坐下来吃一顿", dishes: "顺德私房菜、家常热菜、砂锅类", queue: "截图显示有大桌、免费停车；建议提前订位", tags: ["口味榜第8名", "收藏7年", "有大桌", "免费停车"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "银辉饭店", branch: "沿江北路总店", rank: "B", area: "大良商圈", kind: "顺德菜", price: 87, priceText: "¥87/人", rating: 4.4, reviews: 641, distance: 1.7, x: 57, y: 37, vibe: "大良正餐备选，人均适中，适合多人桌", dishes: "传统顺德菜、饭店热菜", queue: "截图显示有包厢、有大桌、付费停车；出发前确认停车", tags: ["收藏14年", "有包厢", "有大桌"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "志丰饮食店", branch: "逢源路店", rank: "C", area: "大良商圈", kind: "快餐简餐", price: 54, priceText: "¥54/人", rating: 3.9, reviews: 571, distance: 1.4, x: 46, y: 43, vibe: "适合快速解决，不适合作为同学聚餐主力", dishes: "简餐、小炒、快餐", queue: "评分一般，优先级放低", tags: ["收藏13年", "免费停车"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "大笑饭堂", branch: "甲子桥店", rank: "B", area: "大良商圈", kind: "农家菜", price: 95, priceText: "¥95/人", rating: 3.9, reviews: 2987, distance: 2.8, x: 59, y: 44, vibe: "评论量高，适合想吃农家菜时作为备选", dishes: "农家菜、顺德家常菜、蒸鱼鸡肉类", queue: "评分不高但热度高，建议看当天新评价", tags: ["农家菜热门第1名", "收藏14年", "有大桌"], address: "顺德区，截图未显示更细商圈；高德搜索甲子桥店", source: "大众点评截图", confidence: "截图识别" },
-      { name: "野生选手", branch: "", rank: "B", area: "大良商圈", kind: "咖啡", price: 21, priceText: "¥21/人", rating: 4.3, reviews: 338, distance: 1.2, x: 43, y: 38, vibe: "下午休息、等人、避暑喝咖啡", dishes: "咖啡、轻饮", queue: "无包厢，不适合作为饭局", tags: ["收藏4年", "现磨咖啡", "免费Wi-Fi"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "橄榄园·特色桑拿鸡·无骨鱼", branch: "", rank: "B", area: "大良商圈", kind: "顺德菜", price: 88, priceText: "¥88/人", rating: 4.2, reviews: 1015, distance: 2.2, x: 55, y: 48, vibe: "想吃桑拿鸡、无骨鱼这类顺德特色时可选", dishes: "桑拿鸡、无骨鱼、顺德菜", queue: "热度中等，适合提前确认是否有位", tags: ["收藏10年", "有大桌", "免费停车"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "大树头老字号甜品店", branch: "北滘总店", rank: "B", area: "北滘商圈", kind: "甜品", price: 27, priceText: "¥27/人", rating: 4.2, reviews: 2880, distance: 16.0, x: 46, y: 15, vibe: "北滘线甜品备选，单独从酒店过去不划算", dishes: "甜品、糕点、糖水", queue: "截图显示付费停车；建议顺路再去", tags: ["面包蛋糕甜品热门第1名", "收藏14年"], address: "顺德区北滘商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "民骏龟苓膏凉茶", branch: "桥珠巷旗舰店", rank: "B", area: "大良商圈", kind: "茶饮果汁", price: 21, priceText: "¥21/人", rating: 4.4, reviews: 3908, distance: 1.0, x: 49, y: 47, vibe: "饭后清口、散步顺手买，适合小份分享", dishes: "龟苓膏、凉茶、茶饮", queue: "不是正餐，适合作为路线补点", tags: ["收藏13年", "可带宠物", "有节目表演"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "大门山庄", branch: "", rank: "B", area: "大良商圈", kind: "顺德菜", price: 95, priceText: "¥95/人", rating: 4.4, reviews: 71, distance: 3.6, x: 63, y: 50, vibe: "评价量少但评分不错，适合当安静备选", dishes: "顺德菜、山庄式家常菜", queue: "评论量少，需确认营业和实际环境", tags: ["收藏8年", "有包厢", "免费停车", "可预订"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "川村家厨", branch: "", rank: "B", area: "大良商圈", kind: "茶餐厅", price: 38, priceText: "¥38/人", rating: 4.4, reviews: 546, distance: 1.1, x: 44, y: 50, vibe: "轻松茶餐厅，适合早餐/下午简餐", dishes: "茶餐厅简餐、奶茶、面饭", queue: "更适合补位，不是顺德菜代表", tags: ["茶餐厅好评第5名", "收藏5年"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "亩得顶饭堂", branch: "大良店", rank: "B", area: "大良商圈", kind: "顺德菜", price: 95, priceText: "¥95/人", rating: 4.1, reviews: 3235, distance: 2.4, x: 60, y: 40, vibe: "热度高，适合一桌人吃家常顺德菜", dishes: "顺德菜、煲类、小炒", queue: "评分不算突出，建议现场看排队和近期评价", tags: ["热门榜第8名", "有包厢", "免费停车"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "大吉饭堂", branch: "", rank: "B", area: "大良商圈", kind: "顺德菜", price: 102, priceText: "¥102/人", rating: 4.3, reviews: 1095, distance: 2.0, x: 52, y: 53, vibe: "大良饭堂型正餐备选", dishes: "顺德菜、饭堂热菜、多人菜", queue: "截图显示可预订，建议提前看是否有位", tags: ["收藏5年", "有包厢", "免费停车", "可预订"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "大码头睿淇小食店", branch: "", rank: "B", area: "大良商圈", kind: "快餐简餐", price: 52, priceText: "¥52/人", rating: 4.2, reviews: 284, distance: 1.6, x: 47, y: 55, vibe: "小吃简餐，适合不想正式吃饭时补一顿", dishes: "粥粉面、小食、简餐", queue: "评论量不高，作为备选", tags: ["收藏7年", "轻松吃"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "黄但记·非遗老字号·中华餐饮名店", branch: "万科店", rank: "B", area: "陈村商圈", kind: "顺德菜", price: 83, priceText: "¥83/人", rating: 4.0, reviews: 6470, distance: 18.0, x: 73, y: 19, vibe: "陈村线顺路时可选，热度高但离酒店远", dishes: "陈村粉、顺德菜、老字号菜式", queue: "评分一般，适合路过陈村再考虑", tags: ["陈村商圈粤菜口头客第7名", "收藏12年", "有包厢", "有大桌"], address: "顺德区陈村商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "阿多私房菜", branch: "顺德店", rank: "A", area: "勒流商圈", kind: "私房菜", price: 155, priceText: "¥155/人", rating: 4.6, reviews: 5253, distance: 8.5, x: 34, y: 59, vibe: "评分和热度都强，适合专门安排一顿私房菜", dishes: "顺德私房菜、鱼生/家常菜需现场确认", queue: "人均偏高，建议提前订位", tags: ["美食热门榜第1名", "收藏13年", "有包厢", "有大桌"], address: "顺德区勒流商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "猪肉婆私房菜", branch: "容桂总店", rank: "A", area: "容桂商圈", kind: "顺德菜", price: 244, priceText: "¥244/人", rating: 4.4, reviews: 24166, distance: 13.0, x: 67, y: 68, vibe: "名气和评论量极高，适合作为专门去的一顿", dishes: "顺德菜、私房菜、招牌鱼饼/炸鲜奶类", queue: "人均高、周末可能排队；强烈建议提前订位", tags: ["美食销量榜第1名", "收藏16年", "有包厢", "有大桌"], address: "顺德区容桂商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "文华老友记", branch: "", rank: "C", area: "富华路", kind: "小吃快餐", price: 61, priceText: "¥61/人", rating: 3.9, reviews: 3083, distance: 1.8, x: 42, y: 46, vibe: "小吃快餐，适合临时补位", dishes: "粥粉面、小吃、快餐", queue: "评分偏低，不作为首选", tags: ["富华路小吃快餐热门第1名", "收藏14年", "可预订"], address: "顺德区富华路，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "杏坛公平靓正", branch: "大良店", rank: "B", area: "大良商圈", kind: "小吃快餐", price: 71, priceText: "¥71/人", rating: 4.1, reviews: 6242, distance: 2.1, x: 57, y: 56, vibe: "评论量高，适合大良附近不想复杂点菜时吃", dishes: "小吃快餐、简餐、顺德风味", queue: "评分一般，优先看当天排队", tags: ["小吃快餐热门第2名", "收藏4年", "有包厢", "有大桌"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "叮脆私房菜", branch: "近良店", rank: "B", area: "大良商圈", kind: "私房菜", price: 122, priceText: "¥122/人", rating: 4.0, reviews: 12879, distance: 2.6, x: 62, y: 45, vibe: "评论量很高，适合多人正餐备选", dishes: "私房菜、顺德菜、家常热菜", queue: "评分一般但热度高，建议对比近期评价", tags: ["私房菜热门第4名", "收藏18年", "有包厢", "有大桌"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "大良毋米粥", branch: "锦龙路总店", rank: "A", area: "大良商圈", kind: "顺德菜", price: 126, priceText: "¥126/人", rating: 4.7, reviews: 11802, distance: 1.6, x: 50, y: 34, vibe: "抵达午餐强候选，顺德特色明确，适合多人围桌", dishes: "毋米粥、粥底火锅、海鲜/鸡肉涮粥", queue: "截图显示 2026 年入围餐厅；热门饭点建议提前订位", tags: ["2026年入围餐厅", "收藏20年", "有包厢", "有大桌"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "欢姐伦教糕", branch: "北海大道北店", rank: "C", area: "伦教商圈", kind: "面包蛋糕", price: 24, priceText: "¥24/人", rating: 3.4, reviews: 1093, distance: 8.5, x: 27, y: 29, vibe: "伦教线伴手礼/点心，别当正餐", dishes: "伦教糕、糕点、伴手礼", queue: "评分偏低，适合顺路买少量试试", tags: ["收藏16年", "免费停车", "复古风格"], address: "顺德区伦教商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "黄连大头华烧鹅店", branch: "大良店", rank: "A", area: "大良商圈", kind: "烧腊", price: 106, priceText: "¥106/人", rating: 4.4, reviews: 4075, distance: 3.1, x: 65, y: 41, vibe: "烧鹅强候选，适合正餐加一道硬菜", dishes: "烧鹅、烧腊、鹅肝/鹅杂类", queue: "截图显示 2026 年入围餐厅；建议提前确认是否排队", tags: ["2026年入围餐厅", "收藏13年", "有大桌"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "红星光发煲仔饭", branch: "文海店", rank: "A", area: "容桂商圈", kind: "粤菜馆", price: 80, priceText: "¥80/人", rating: 4.3, reviews: 9350, distance: 12.5, x: 72, y: 61, vibe: "容桂线轻松吃，评论量大，适合不想点复杂菜", dishes: "煲仔饭、黄鳝饭、腊味饭", queue: "煲仔饭制作需要时间，饭点可能等位", tags: ["粤菜好评榜第4名", "收藏14年", "有包厢", "有大桌"], address: "顺德区容桂商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "椿咖啡", branch: "丽景楼店", rank: "B", area: "大良商圈", kind: "咖啡", price: 53, priceText: "¥53/人", rating: 4.4, reviews: 421, distance: 1.0, x: 45, y: 33, vibe: "下午歇脚、聊天、等位时很合适", dishes: "咖啡、轻食、甜品", queue: "不是饭点主力，适合休息", tags: ["收藏3年", "咖啡"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "粥球场·粥底火锅", branch: "", rank: "B", area: "大良商圈", kind: "小吃", price: 40, priceText: "¥40/人", rating: 4.2, reviews: 244, distance: 1.7, x: 54, y: 58, vibe: "想吃粥底但不想太贵时可作为轻量备选", dishes: "生滚粥、粥底火锅", queue: "评论量少，先看营业和现场人流", tags: ["小吃热门第9名", "有大桌", "免费停车"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "茗茶友煮", branch: "大良店", rank: "C", area: "大良商圈", kind: "快餐简餐", price: 48, priceText: "¥48/人", rating: 4.1, reviews: 1984, distance: 1.5, x: 40, y: 53, vibe: "截图显示暂停营业，先不作为可去选择", dishes: "茶饮、简餐、轻食", queue: "已标记暂停营业，去之前必须复核", tags: ["暂停营业", "有大桌", "免费停车"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
-      { name: "松记食店", branch: "", rank: "A", area: "杏坛商圈", kind: "火锅", price: 113, priceText: "¥113/人", rating: 4.7, reviews: 5310, distance: 18.0, x: 21, y: 71, vibe: "评分高，适合把杏坛作为专门一顿来安排", dishes: "火锅、顺德风味锅、多人围桌", queue: "截图显示 2026 年入围餐厅；离酒店远，适合专程", tags: ["2026年入围餐厅", "收藏19年", "付费停车"], address: "顺德区杏坛商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" }
+      { name: "天然居", branch: "伦教店", rank: "A", area: "伦教商圈", kind: "顺德菜", price: 85, priceText: "¥85/人", rating: 4.5, reviews: 2059, distance: 8.5, x: 31, y: 34, vibe: "适合专门安排伦教线，环境和桌位更像正餐聚会", dishes: "顺德菜、家常菜、多人围桌菜", queue: "截图显示有包厢、有大桌；周末仍建议提前确认订位", tags: ["收藏18年", "有包厢", "有大桌", "伦教线"], address: "顺德区伦教商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "新基豆腐店", branch: "", rank: "C", area: "大良商圈", kind: "小吃快餐", price: 32, priceText: "¥32/人", rating: 3.8, reviews: 982, distance: 1.5, x: 51, y: 39, vibe: "预算友好，适合随便垫一顿或尝豆腐小吃", dishes: "豆腐、煎炸小吃、快餐简餐", queue: "评分偏低，作为路过备选更合适", tags: ["收藏7年", "轻松吃", "预算友好"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "方趣冰店", branch: "", rank: "A", area: "大良商圈", kind: "冰淇淋", price: 19, priceText: "¥19/人", rating: 4.7, reviews: 603, distance: 1.3, x: 48, y: 36, vibe: "饭后甜品或下午散步补点，轻松不占胃", dishes: "冰淇淋、雪糕、冷饮甜品", queue: "小店型选择，专门当正餐不合适", tags: ["口味榜第1名", "收藏5年", "甜品"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "尧记私房菜", branch: "", rank: "A", area: "大良商圈", kind: "私房菜", price: 116, priceText: "¥116/人", rating: 4.6, reviews: 950, distance: 1.8, x: 53, y: 42, vibe: "离酒店所在大良主线近，适合同学坐下来吃一顿", dishes: "顺德私房菜、家常热菜、砂锅类", queue: "截图显示有大桌、免费停车；建议提前订位", tags: ["口味榜第8名", "收藏7年", "有大桌", "免费停车"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "银辉饭店", branch: "沿江北路总店", rank: "B", area: "大良商圈", kind: "顺德菜", price: 87, priceText: "¥87/人", rating: 4.4, reviews: 641, distance: 1.7, x: 57, y: 37, vibe: "大良正餐备选，人均适中，适合多人桌", dishes: "传统顺德菜、饭店热菜", queue: "截图显示有包厢、有大桌、付费停车；出发前确认停车", tags: ["收藏14年", "有包厢", "有大桌"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "志丰饮食店", branch: "逢源路店", rank: "C", area: "大良商圈", kind: "快餐简餐", price: 54, priceText: "¥54/人", rating: 3.9, reviews: 571, distance: 1.4, x: 46, y: 43, vibe: "适合快速解决，不适合作为同学聚餐主力", dishes: "简餐、小炒、快餐", queue: "评分一般，优先级放低", tags: ["收藏13年", "免费停车"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "大笑饭堂", branch: "甲子桥店", rank: "B", area: "大良商圈", kind: "农家菜", price: 95, priceText: "¥95/人", rating: 3.9, reviews: 2987, distance: 2.8, x: 59, y: 44, vibe: "评论量高，适合想吃农家菜时作为备选", dishes: "农家菜、顺德家常菜、蒸鱼鸡肉类", queue: "评分不高但热度高，建议看当天新评价", tags: ["农家菜热门第1名", "收藏14年", "有大桌"], address: "顺德区，截图未显示更细商圈；微信地图搜索甲子桥店", source: "大众点评截图", confidence: "截图识别" },
+      { name: "野生选手", branch: "", rank: "B", area: "大良商圈", kind: "咖啡", price: 21, priceText: "¥21/人", rating: 4.3, reviews: 338, distance: 1.2, x: 43, y: 38, vibe: "下午休息、等人、避暑喝咖啡", dishes: "咖啡、轻饮", queue: "无包厢，不适合作为饭局", tags: ["收藏4年", "现磨咖啡", "免费Wi-Fi"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "橄榄园·特色桑拿鸡·无骨鱼", branch: "", rank: "B", area: "大良商圈", kind: "顺德菜", price: 88, priceText: "¥88/人", rating: 4.2, reviews: 1015, distance: 2.2, x: 55, y: 48, vibe: "想吃桑拿鸡、无骨鱼这类顺德特色时可选", dishes: "桑拿鸡、无骨鱼、顺德菜", queue: "热度中等，适合提前确认是否有位", tags: ["收藏10年", "有大桌", "免费停车"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "大树头老字号甜品店", branch: "北滘总店", rank: "B", area: "北滘商圈", kind: "甜品", price: 27, priceText: "¥27/人", rating: 4.2, reviews: 2880, distance: 16.0, x: 46, y: 15, vibe: "北滘线甜品备选，单独从酒店过去不划算", dishes: "甜品、糕点、糖水", queue: "截图显示付费停车；建议顺路再去", tags: ["面包蛋糕甜品热门第1名", "收藏14年"], address: "顺德区北滘商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "民骏龟苓膏凉茶", branch: "桥珠巷旗舰店", rank: "B", area: "大良商圈", kind: "茶饮果汁", price: 21, priceText: "¥21/人", rating: 4.4, reviews: 3908, distance: 1.0, x: 49, y: 47, vibe: "饭后清口、散步顺手买，适合小份分享", dishes: "龟苓膏、凉茶、茶饮", queue: "不是正餐，适合作为路线补点", tags: ["收藏13年", "可带宠物", "有节目表演"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "大门山庄", branch: "", rank: "B", area: "大良商圈", kind: "顺德菜", price: 95, priceText: "¥95/人", rating: 4.4, reviews: 71, distance: 3.6, x: 63, y: 50, vibe: "评价量少但评分不错，适合当安静备选", dishes: "顺德菜、山庄式家常菜", queue: "评论量少，需确认营业和实际环境", tags: ["收藏8年", "有包厢", "免费停车", "可预订"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "川村家厨", branch: "", rank: "B", area: "大良商圈", kind: "茶餐厅", price: 38, priceText: "¥38/人", rating: 4.4, reviews: 546, distance: 1.1, x: 44, y: 50, vibe: "轻松茶餐厅，适合早餐/下午简餐", dishes: "茶餐厅简餐、奶茶、面饭", queue: "更适合补位，不是顺德菜代表", tags: ["茶餐厅好评第5名", "收藏5年"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "亩得顶饭堂", branch: "大良店", rank: "B", area: "大良商圈", kind: "顺德菜", price: 95, priceText: "¥95/人", rating: 4.1, reviews: 3235, distance: 2.4, x: 60, y: 40, vibe: "热度高，适合一桌人吃家常顺德菜", dishes: "顺德菜、煲类、小炒", queue: "评分不算突出，建议现场看排队和近期评价", tags: ["热门榜第8名", "有包厢", "免费停车"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "大吉饭堂", branch: "", rank: "B", area: "大良商圈", kind: "顺德菜", price: 102, priceText: "¥102/人", rating: 4.3, reviews: 1095, distance: 2.0, x: 52, y: 53, vibe: "大良饭堂型正餐备选", dishes: "顺德菜、饭堂热菜、多人菜", queue: "截图显示可预订，建议提前看是否有位", tags: ["收藏5年", "有包厢", "免费停车", "可预订"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "大码头睿淇小食店", branch: "", rank: "B", area: "大良商圈", kind: "快餐简餐", price: 52, priceText: "¥52/人", rating: 4.2, reviews: 284, distance: 1.6, x: 47, y: 55, vibe: "小吃简餐，适合不想正式吃饭时补一顿", dishes: "粥粉面、小食、简餐", queue: "评论量不高，作为备选", tags: ["收藏7年", "轻松吃"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "黄但记·非遗老字号·中华餐饮名店", branch: "万科店", rank: "B", area: "陈村商圈", kind: "顺德菜", price: 83, priceText: "¥83/人", rating: 4.0, reviews: 6470, distance: 18.0, x: 73, y: 19, vibe: "陈村线顺路时可选，热度高但离酒店远", dishes: "陈村粉、顺德菜、老字号菜式", queue: "评分一般，适合路过陈村再考虑", tags: ["陈村商圈粤菜口头客第7名", "收藏12年", "有包厢", "有大桌"], address: "顺德区陈村商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "阿多私房菜", branch: "顺德店", rank: "A", area: "勒流商圈", kind: "私房菜", price: 155, priceText: "¥155/人", rating: 4.6, reviews: 5253, distance: 8.5, x: 34, y: 59, vibe: "评分和热度都强，适合专门安排一顿私房菜", dishes: "顺德私房菜、鱼生/家常菜需现场确认", queue: "人均偏高，建议提前订位", tags: ["美食热门榜第1名", "收藏13年", "有包厢", "有大桌"], address: "顺德区勒流商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "猪肉婆私房菜", branch: "容桂总店", rank: "A", area: "容桂商圈", kind: "顺德菜", price: 244, priceText: "¥244/人", rating: 4.4, reviews: 24166, distance: 13.0, x: 67, y: 68, vibe: "名气和评论量极高，适合作为专门去的一顿", dishes: "顺德菜、私房菜、招牌鱼饼/炸鲜奶类", queue: "人均高、周末可能排队；强烈建议提前订位", tags: ["美食销量榜第1名", "收藏16年", "有包厢", "有大桌"], address: "顺德区容桂商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "文华老友记", branch: "", rank: "C", area: "富华路", kind: "小吃快餐", price: 61, priceText: "¥61/人", rating: 3.9, reviews: 3083, distance: 1.8, x: 42, y: 46, vibe: "小吃快餐，适合临时补位", dishes: "粥粉面、小吃、快餐", queue: "评分偏低，不作为首选", tags: ["富华路小吃快餐热门第1名", "收藏14年", "可预订"], address: "顺德区富华路，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "杏坛公平靓正", branch: "大良店", rank: "B", area: "大良商圈", kind: "小吃快餐", price: 71, priceText: "¥71/人", rating: 4.1, reviews: 6242, distance: 2.1, x: 57, y: 56, vibe: "评论量高，适合大良附近不想复杂点菜时吃", dishes: "小吃快餐、简餐、顺德风味", queue: "评分一般，优先看当天排队", tags: ["小吃快餐热门第2名", "收藏4年", "有包厢", "有大桌"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "叮脆私房菜", branch: "近良店", rank: "B", area: "大良商圈", kind: "私房菜", price: 122, priceText: "¥122/人", rating: 4.0, reviews: 12879, distance: 2.6, x: 62, y: 45, vibe: "评论量很高，适合多人正餐备选", dishes: "私房菜、顺德菜、家常热菜", queue: "评分一般但热度高，建议对比近期评价", tags: ["私房菜热门第4名", "收藏18年", "有包厢", "有大桌"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "大良毋米粥", branch: "锦龙路总店", rank: "A", area: "大良商圈", kind: "顺德菜", price: 126, priceText: "¥126/人", rating: 4.7, reviews: 11802, distance: 1.6, x: 50, y: 34, vibe: "抵达午餐强候选，顺德特色明确，适合多人围桌", dishes: "毋米粥、粥底火锅、海鲜/鸡肉涮粥", queue: "截图显示 2026 年入围餐厅；热门饭点建议提前订位", tags: ["2026年入围餐厅", "收藏20年", "有包厢", "有大桌"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "欢姐伦教糕", branch: "北海大道北店", rank: "C", area: "伦教商圈", kind: "面包蛋糕", price: 24, priceText: "¥24/人", rating: 3.4, reviews: 1093, distance: 8.5, x: 27, y: 29, vibe: "伦教线伴手礼/点心，别当正餐", dishes: "伦教糕、糕点、伴手礼", queue: "评分偏低，适合顺路买少量试试", tags: ["收藏16年", "免费停车", "复古风格"], address: "顺德区伦教商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "黄连大头华烧鹅店", branch: "大良店", rank: "A", area: "大良商圈", kind: "烧腊", price: 106, priceText: "¥106/人", rating: 4.4, reviews: 4075, distance: 3.1, x: 65, y: 41, vibe: "烧鹅强候选，适合正餐加一道硬菜", dishes: "烧鹅、烧腊、鹅肝/鹅杂类", queue: "截图显示 2026 年入围餐厅；建议提前确认是否排队", tags: ["2026年入围餐厅", "收藏13年", "有大桌"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "红星光发煲仔饭", branch: "文海店", rank: "A", area: "容桂商圈", kind: "粤菜馆", price: 80, priceText: "¥80/人", rating: 4.3, reviews: 9350, distance: 12.5, x: 72, y: 61, vibe: "容桂线轻松吃，评论量大，适合不想点复杂菜", dishes: "煲仔饭、黄鳝饭、腊味饭", queue: "煲仔饭制作需要时间，饭点可能等位", tags: ["粤菜好评榜第4名", "收藏14年", "有包厢", "有大桌"], address: "顺德区容桂商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "椿咖啡", branch: "丽景楼店", rank: "B", area: "大良商圈", kind: "咖啡", price: 53, priceText: "¥53/人", rating: 4.4, reviews: 421, distance: 1.0, x: 45, y: 33, vibe: "下午歇脚、聊天、等位时很合适", dishes: "咖啡、轻食、甜品", queue: "不是饭点主力，适合休息", tags: ["收藏3年", "咖啡"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "粥球场·粥底火锅", branch: "", rank: "B", area: "大良商圈", kind: "小吃", price: 40, priceText: "¥40/人", rating: 4.2, reviews: 244, distance: 1.7, x: 54, y: 58, vibe: "想吃粥底但不想太贵时可作为轻量备选", dishes: "生滚粥、粥底火锅", queue: "评论量少，先看营业和现场人流", tags: ["小吃热门第9名", "有大桌", "免费停车"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "茗茶友煮", branch: "大良店", rank: "C", area: "大良商圈", kind: "快餐简餐", price: 48, priceText: "¥48/人", rating: 4.1, reviews: 1984, distance: 1.5, x: 40, y: 53, vibe: "截图显示暂停营业，先不作为可去选择", dishes: "茶饮、简餐、轻食", queue: "已标记暂停营业，去之前必须复核", tags: ["暂停营业", "有大桌", "免费停车"], address: "顺德区大良商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" },
+      { name: "松记食店", branch: "", rank: "A", area: "杏坛商圈", kind: "火锅", price: 113, priceText: "¥113/人", rating: 4.7, reviews: 5310, distance: 18.0, x: 21, y: 71, vibe: "评分高，适合把杏坛作为专门一顿来安排", dishes: "火锅、顺德风味锅、多人围桌", queue: "截图显示 2026 年入围餐厅；离酒店远，适合专程", tags: ["2026年入围餐厅", "收藏19年", "付费停车"], address: "顺德区杏坛商圈，精确门牌以微信地图复核为准", source: "大众点评截图", confidence: "截图识别" }
     ];
 
     const areas = ["大良商圈", "富华路", "伦教商圈", "北滘商圈", "陈村商圈", "勒流商圈", "容桂商圈", "杏坛商圈", "其他/待确认"];
@@ -730,7 +739,7 @@
       "勒流商圈": ["偏西南方向", "阿多私房菜可专程"],
       "容桂商圈": ["偏东南方向", "猪肉婆、红星光发"],
       "杏坛商圈": ["偏西南更远", "松记食店专程线"],
-      "其他/待确认": ["朋友新补充", "先点高德确认位置"]
+      "其他/待确认": ["朋友新补充", "先复制店名确认位置"]
     };
     let friendPlaces = [];
 
@@ -771,21 +780,35 @@
         dishes: item.type === "景点" ? "游玩/拍照/散步" : "推荐菜待补充",
         queue: "朋友补充项，营业状态、门牌和排队情况需出发前确认",
         tags: ["朋友补充", item.submitter ? `${item.submitter}推荐` : "待确认"].filter(Boolean),
-        address: `${areaName}，精确位置以高德为准`,
+        address: `${areaName}，精确位置待微信地图复核`,
         source: "朋友在线补充",
         confidence: "待确认",
         createdAt: item.createdAt || ""
       };
     }
 
-    function amapUrl(item) {
-      const keyword = `${item.name} ${item.branch || ""} ${item.area} 顺德`;
-      return `https://uri.amap.com/search?keyword=${encodeURIComponent(keyword)}&city=${encodeURIComponent("佛山")}&view=map`;
+    function escapeAttr(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
     }
 
-    function hotelRouteUrl(item) {
-      const keyword = `${item.name} ${item.branch || ""} ${item.address}`;
-      return `https://uri.amap.com/marker?name=${encodeURIComponent(keyword)}&coordinate=&src=shunde-food-map`;
+    function mapSearchText(item) {
+      return `${item.name} ${item.branch || ""} ${item.area} 顺德 佛山`.replace(/\s+/g, " ").trim();
+    }
+
+    function hasRealCoords(item) {
+      return Number.isFinite(Number(item.latitude)) && Number.isFinite(Number(item.longitude));
+    }
+
+    function mapActionHtml(item, label = "复制店名搜微信地图") {
+      const query = mapSearchText(item);
+      const coords = hasRealCoords(item) ? ` data-lat="${item.latitude}" data-lng="${item.longitude}"` : "";
+      return `<button class="link map-action" type="button" data-map-query="${escapeAttr(query)}" data-name="${escapeAttr(item.name)}" data-address="${escapeAttr(item.address || item.area)}"${coords}>${label}</button>`;
     }
 
     function fillSelects() {
@@ -836,8 +859,7 @@
             <span class="small">招牌/方向：${item.dishes}</span>
           </td>
           <td>
-            <a class="link" target="_blank" rel="noreferrer" href="${amapUrl(item)}">高德搜索</a><br>
-            <a class="link secondary" target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=${encodeURIComponent(hotel + " 到 " + item.name + " " + item.area)}&city=${encodeURIComponent("佛山")}">查路线</a>
+            ${mapActionHtml(item)}
           </td>
         </tr>
       `).join("");
@@ -857,8 +879,7 @@
             <span class="small">${item.dishes}</span>
           </div>
           <div class="card-actions">
-            <a class="link" target="_blank" rel="noreferrer" href="${amapUrl(item)}">高德搜索</a>
-            <a class="link secondary" target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=${encodeURIComponent(hotel + " 到 " + item.name + " " + item.area)}&city=${encodeURIComponent("佛山")}">从酒店查路线</a>
+            ${mapActionHtml(item)}
           </div>
         </article>
       `).join("");
@@ -888,6 +909,37 @@
       }).join("");
     }
 
+    const mapSlots = {
+      "北滘商圈": [[42, 13], [51, 18], [45, 23]],
+      "陈村商圈": [[66, 14], [75, 20], [70, 27]],
+      "伦教商圈": [[22, 27], [31, 32], [18, 39], [29, 42]],
+      "富华路": [[35, 41], [40, 49], [32, 52]],
+      "大良商圈": [
+        [45, 30], [54, 30], [63, 32],
+        [38, 38], [47, 39], [56, 39], [66, 40],
+        [34, 48], [43, 48], [52, 48], [61, 49], [70, 49],
+        [37, 58], [46, 58], [55, 58], [64, 59], [73, 59],
+        [42, 68], [52, 68], [62, 68], [70, 70],
+        [50, 76]
+      ],
+      "勒流商圈": [[24, 56], [31, 64], [38, 70], [28, 76]],
+      "容桂商圈": [[62, 67], [71, 62], [78, 70], [68, 78], [58, 76]],
+      "杏坛商圈": [[17, 76], [25, 83], [12, 84]],
+      "其他/待确认": [[78, 38], [84, 47], [73, 52], [82, 58]]
+    };
+
+    function mapDisplayPosition(item, orderInArea) {
+      const slots = mapSlots[item.area];
+      if (!slots || !slots.length) return [item.x, item.y];
+      const base = slots[orderInArea % slots.length];
+      const round = Math.floor(orderInArea / slots.length);
+      const nudge = round ? Math.min(round * 2, 6) : 0;
+      return [
+        Math.max(8, Math.min(90, base[0] + nudge)),
+        Math.max(8, Math.min(88, base[1] + nudge))
+      ];
+    }
+
     function renderVisualMap(list = allPlaces()) {
       const map = document.querySelector("#visualMap");
       const existing = map.querySelectorAll(".pin, .map-label, .district-region");
@@ -896,10 +948,10 @@
         ["北滘", 42, 9, 18, 12, "blue"],
         ["陈村", 66, 12, 18, 12, "blue"],
         ["伦教", 21, 25, 20, 14, "blue"],
-        ["大良 / 酒店", 38, 33, 28, 22, ""],
-        ["勒流", 25, 56, 20, 14, ""],
-        ["容桂", 62, 63, 22, 18, "orange"],
-        ["杏坛", 12, 70, 20, 14, "orange"],
+        ["大良 / 清晖园", 34, 29, 42, 46, ""],
+        ["勒流", 23, 56, 22, 21, ""],
+        ["容桂", 58, 62, 25, 22, "orange"],
+        ["杏坛", 10, 73, 23, 16, "orange"],
         ["待确认", 74, 42, 18, 12, ""]
       ];
       regions.forEach(([text, left, top, width, height, tone]) => {
@@ -925,12 +977,16 @@
         label.textContent = text;
         map.appendChild(label);
       });
+      const areaUsed = new Map();
       list.forEach((item, idx) => {
+        const orderInArea = areaUsed.get(item.area) || 0;
+        areaUsed.set(item.area, orderInArea + 1);
+        const [displayX, displayY] = mapDisplayPosition(item, orderInArea);
         const pin = document.createElement("button");
         pin.type = "button";
         pin.className = `pin ${item.rank}`;
-        pin.style.left = `${item.x}%`;
-        pin.style.top = `${item.y}%`;
+        pin.style.left = `${displayX}%`;
+        pin.style.top = `${displayY}%`;
         pin.dataset.index = idx + 1;
         pin.title = `${item.name}｜${item.area}｜${item.priceText}`;
         pin.addEventListener("click", () => showMapDetail(item, pin));
@@ -949,16 +1005,15 @@
         <p>${item.vibe}</p>
         <p class="small">地址线索：${item.address}</p>
         <div class="chips">
-          <a class="link" target="_blank" rel="noreferrer" href="${amapUrl(item)}">高德搜索这家</a>
-          <a class="link secondary" target="_blank" rel="noreferrer" href="https://uri.amap.com/search?keyword=${encodeURIComponent(hotel + " 到 " + item.name + " " + item.area)}&city=${encodeURIComponent("佛山")}">从酒店查路线</a>
+          ${mapActionHtml(item, "复制这家店名")}
         </div>
       `;
     }
 
     function exportCsv() {
-      const headers = ["推荐等级","餐厅","分店","区域","距酒店约km","类型","人均","适合场景","招牌菜","地址","风险提示","来源","高德搜索"];
+      const headers = ["推荐等级","餐厅","分店","区域","距酒店约km","类型","人均","适合场景","招牌菜","地址","风险提示","来源","微信地图搜索词"];
       const lines = [headers, ...getFiltered().map(item => [
-        item.rank, item.name, item.branch, item.area, item.distance, item.kind, item.priceText, item.vibe, item.dishes, item.address, item.queue, item.source, amapUrl(item)
+        item.rank, item.name, item.branch, item.area, item.distance, item.kind, item.priceText, item.vibe, item.dishes, item.address, item.queue, item.source, mapSearchText(item)
       ])].map(row => row.map(cell => `"${String(cell).replaceAll('"', '""')}"`).join(","));
       const blob = new Blob(["\ufeff" + lines.join("\n")], { type: "text/csv;charset=utf-8" });
       const a = document.createElement("a");
@@ -975,14 +1030,71 @@
         return;
       }
       box.innerHTML = friendPlaces.map((item, idx) => {
-        const url = amapUrl(item);
         return `<p>
           <strong>${idx + 1}. ${item.name}</strong><br>
           <span class="small">${item.kind} · ${item.area} · ${item.tags.join(" / ")}</span><br>
           ${item.vibe ? `<span class="small">${item.vibe}</span><br>` : ""}
-          <a class="link" target="_blank" rel="noreferrer" href="${url}">高德搜索</a>
+          ${mapActionHtml(item)}
         </p>`;
       }).join("");
+    }
+
+    async function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return;
+        } catch (err) {
+          // Some in-app browsers expose Clipboard API but reject it; fall back to selection copy.
+        }
+      }
+      const input = document.createElement("textarea");
+      input.value = text;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.left = "-9999px";
+      document.body.appendChild(input);
+      input.select();
+      const copied = document.execCommand("copy");
+      input.remove();
+      if (!copied) throw new Error("copy failed");
+    }
+
+    let toastTimer = null;
+    function showToast(message) {
+      const toast = document.querySelector("#toast");
+      toast.textContent = message;
+      toast.hidden = false;
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => {
+        toast.hidden = true;
+      }, 4200);
+    }
+
+    async function handleMapAction(button) {
+      const query = button.dataset.mapQuery || "";
+      const lat = Number(button.dataset.lat);
+      const lng = Number(button.dataset.lng);
+      const canUseWechatMap = window.wx && typeof window.wx.openLocation === "function" &&
+        Number.isFinite(lat) && Number.isFinite(lng);
+
+      if (canUseWechatMap) {
+        window.wx.openLocation({
+          latitude: lat,
+          longitude: lng,
+          name: button.dataset.name || query,
+          address: button.dataset.address || query,
+          scale: 18
+        });
+        return;
+      }
+
+      try {
+        await copyText(query);
+        showToast(`已复制：${query}。现在还缺真实经纬度和微信 JS-SDK 授权，先在微信地图粘贴搜索。`);
+      } catch (err) {
+        showToast(`请手动复制后在微信地图搜索：${query}`);
+      }
     }
 
     async function loadFriendPlaces() {
@@ -1058,6 +1170,11 @@
     document.querySelector("#exportCsv").addEventListener("click", exportCsv);
     document.querySelector("#submitPlace").addEventListener("click", submitFriendPlace);
     document.querySelector("#clearPlace").addEventListener("click", clearPlaceForm);
+    document.addEventListener("click", event => {
+      const button = event.target.closest(".map-action");
+      if (!button) return;
+      handleMapAction(button);
+    });
 
     fillSelects();
     renderRoute();
