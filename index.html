@@ -200,13 +200,14 @@
     }
     textarea { min-height: 118px; resize: vertical; }
     .table-wrap {
+      display: none;
       overflow-x: auto;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #fff;
     }
     .card-list {
-      display: none;
+      display: grid;
       gap: 8px;
     }
     .restaurant-card {
@@ -469,8 +470,6 @@
       .filters { grid-template-columns: 1fr 1fr; }
       .quick-actions { grid-template-columns: 1fr 1fr; }
       .visual-map { min-height: 430px; }
-      .table-wrap { display: none; }
-      .card-list { display: grid; }
     }
     @media (max-width: 560px) {
       .wrap { padding: 12px; }
