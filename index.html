@@ -523,7 +523,7 @@
         <a href="#picks">先看结论</a>
         <a href="#table">筛选表格</a>
         <a href="#map">可视化地图</a>
-        <a href="#import">导入收藏</a>
+        <a href="#contribute">一起补充</a>
         <a href="#sources">信息来源</a>
       </nav>
     </div>
@@ -667,28 +667,49 @@
       <p class="small" style="margin-top:10px;">说明：这是根据截图商圈做的可视化相对地图，方便同学讨论选店；精确导航以点开后的高德结果为准。</p>
     </section>
 
-    <section id="import" class="section">
+    <section id="contribute" class="section">
       <div class="panel">
-        <h2>导入你的大众点评收藏</h2>
+        <h2>大家一起补充</h2>
         <div class="import-grid">
           <div>
-            <p>截图里的 30 家已经导入。后面如果你又新增收藏，也可以把餐厅名一行一个粘进来，页面会生成临时高德搜索入口，方便你们先讨论。</p>
-            <label for="rawNames">一行一个餐厅名</label>
-            <textarea id="rawNames" placeholder="例如：
-猪肉婆私房菜
-民信老铺
-黄连大头华烧鹅"></textarea>
+            <p>朋友想加餐厅或景点，可以直接填这里。提交后会同步到大家的列表和地图里，先标记为“朋友补充/待确认”。</p>
+            <div class="filters" style="grid-template-columns: 1fr 1fr;">
+              <div>
+                <label for="placeName">名称</label>
+                <input id="placeName" placeholder="例如：清晖园 / 猪肉婆私房菜" />
+              </div>
+              <div>
+                <label for="placeType">类型</label>
+                <select id="placeType">
+                  <option value="餐厅">餐厅</option>
+                  <option value="景点">景点</option>
+                  <option value="甜品/咖啡">甜品/咖啡</option>
+                  <option value="其他">其他</option>
+                </select>
+              </div>
+              <div>
+                <label for="placeArea">区域</label>
+                <select id="placeArea"></select>
+              </div>
+              <div>
+                <label for="submitter">谁推荐的</label>
+                <input id="submitter" placeholder="例如：阿龙 / 老同学A" />
+              </div>
+            </div>
+            <label for="placeNote">推荐理由或备注</label>
+            <textarea id="placeNote" placeholder="例如：想去拍照 / 同学推荐鱼生 / 离酒店近 / 需要订位"></textarea>
             <div class="chips">
-              <button class="btn primary" id="makeTemp" type="button">生成临时搜索链接</button>
-              <button class="btn" id="clearTemp" type="button">清空</button>
+              <button class="btn primary" id="submitPlace" type="button">提交到大家列表</button>
+              <button class="btn" id="clearPlace" type="button">清空</button>
+              <span class="small" id="submitStatus">正在连接共建列表...</span>
             </div>
           </div>
           <div>
-            <h3>临时收藏清单</h3>
-            <div class="import-output" id="tempList">还没有导入餐厅名。</div>
+            <h3>朋友补充清单</h3>
+            <div class="import-output" id="tempList">正在读取...</div>
           </div>
         </div>
-        <p class="notice" style="margin-top: 14px;">复核建议：截图只能看到商圈和人均，不能保证每家店的完整门牌和营业状态；出发前点“高德搜索”再确认一次。</p>
+        <p class="notice" style="margin-top: 14px;">复核建议：朋友补充项不会自动判断真假、营业状态和精确门牌；真正出发前点“高德搜索”再确认一次。</p>
       </div>
     </section>
 
@@ -705,6 +726,7 @@
 
   <script>
     const hotel = "全季酒店(顺德清晖园华盖路店)";
+    const API_URL = window.SHUNDE_API_URL || "https://shunde-food-api.zylsztsl.workers.dev";
     const restaurants = [
       { name: "天然居", branch: "伦教店", rank: "A", area: "伦教商圈", kind: "顺德菜", price: 85, priceText: "¥85/人", rating: 4.5, reviews: 2059, distance: 8.5, x: 31, y: 34, vibe: "适合专门安排伦教线，环境和桌位更像正餐聚会", dishes: "顺德菜、家常菜、多人围桌菜", queue: "截图显示有包厢、有大桌；周末仍建议提前确认订位", tags: ["收藏18年", "有包厢", "有大桌", "伦教线"], address: "顺德区伦教商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
       { name: "新基豆腐店", branch: "", rank: "C", area: "大良商圈", kind: "小吃快餐", price: 32, priceText: "¥32/人", rating: 3.8, reviews: 982, distance: 1.5, x: 51, y: 39, vibe: "预算友好，适合随便垫一顿或尝豆腐小吃", dishes: "豆腐、煎炸小吃、快餐简餐", queue: "评分偏低，作为路过备选更合适", tags: ["收藏7年", "轻松吃", "预算友好"], address: "顺德区大良商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" },
@@ -738,7 +760,18 @@
       { name: "松记食店", branch: "", rank: "A", area: "杏坛商圈", kind: "火锅", price: 113, priceText: "¥113/人", rating: 4.7, reviews: 5310, distance: 18.0, x: 21, y: 71, vibe: "评分高，适合把杏坛作为专门一顿来安排", dishes: "火锅、顺德风味锅、多人围桌", queue: "截图显示 2026 年入围餐厅；离酒店远，适合专程", tags: ["2026年入围餐厅", "收藏19年", "付费停车"], address: "顺德区杏坛商圈，精确门牌以高德为准", source: "大众点评截图", confidence: "截图识别" }
     ];
 
-    const areas = ["大良商圈", "富华路", "伦教商圈", "北滘商圈", "陈村商圈", "勒流商圈", "容桂商圈", "杏坛商圈"];
+    const areas = ["大良商圈", "富华路", "伦教商圈", "北滘商圈", "陈村商圈", "勒流商圈", "容桂商圈", "杏坛商圈", "其他/待确认"];
+    const areaCoords = {
+      "大良商圈": [51, 43],
+      "富华路": [42, 46],
+      "伦教商圈": [29, 31],
+      "北滘商圈": [46, 15],
+      "陈村商圈": [73, 19],
+      "勒流商圈": [34, 59],
+      "容桂商圈": [70, 66],
+      "杏坛商圈": [21, 71],
+      "其他/待确认": [82, 48]
+    };
     const routeNotes = {
       "大良商圈": ["酒店所在主线", "收藏最密集，适合抵达当天"],
       "富华路": ["靠近大良", "小吃快餐补位"],
@@ -747,8 +780,10 @@
       "陈村商圈": ["偏东北方向", "适合返程或北上顺路"],
       "勒流商圈": ["偏西南方向", "阿多私房菜可专程"],
       "容桂商圈": ["偏东南方向", "猪肉婆、红星光发"],
-      "杏坛商圈": ["偏西南更远", "松记食店专程线"]
+      "杏坛商圈": ["偏西南更远", "松记食店专程线"],
+      "其他/待确认": ["朋友新补充", "先点高德确认位置"]
     };
+    let friendPlaces = [];
 
     const q = document.querySelector("#q");
     const area = document.querySelector("#area");
@@ -759,6 +794,39 @@
     const cards = document.querySelector("#cards");
     const empty = document.querySelector("#empty");
     const countText = document.querySelector("#countText");
+    const submitStatus = document.querySelector("#submitStatus");
+
+    function allPlaces() {
+      return restaurants.concat(friendPlaces);
+    }
+
+    function normalizeFriendPlace(item, idx = 0) {
+      const areaName = areas.includes(item.area) ? item.area : "其他/待确认";
+      const [baseX, baseY] = areaCoords[areaName] || areaCoords["其他/待确认"];
+      return {
+        id: item.id || `friend-${idx}`,
+        name: String(item.name || "").trim(),
+        branch: item.type || "朋友补充",
+        rank: "B",
+        area: areaName,
+        kind: item.type || "朋友补充",
+        price: 999,
+        priceText: "待补充",
+        rating: "待确认",
+        reviews: "朋友补充",
+        distance: Number(item.distance || 99),
+        x: Number(item.x || baseX + ((idx % 5) - 2) * 2),
+        y: Number(item.y || baseY + (Math.floor(idx / 5) % 3) * 2),
+        vibe: item.note || "朋友想去，适合大家投票讨论",
+        dishes: item.type === "景点" ? "游玩/拍照/散步" : "推荐菜待补充",
+        queue: "朋友补充项，营业状态、门牌和排队情况需出发前确认",
+        tags: ["朋友补充", item.submitter ? `${item.submitter}推荐` : "待确认"].filter(Boolean),
+        address: `${areaName}，精确位置以高德为准`,
+        source: "朋友在线补充",
+        confidence: "待确认",
+        createdAt: item.createdAt || ""
+      };
+    }
 
     function amapUrl(item) {
       const keyword = `${item.name} ${item.branch || ""} ${item.area} 顺德`;
@@ -772,13 +840,14 @@
 
     function fillSelects() {
       area.innerHTML = `<option value="">全部区域</option>` + areas.map(v => `<option value="${v}">${v}</option>`).join("");
-      const kinds = [...new Set(restaurants.map(x => x.kind))].sort();
+      document.querySelector("#placeArea").innerHTML = areas.map(v => `<option value="${v}">${v}</option>`).join("");
+      const kinds = [...new Set(allPlaces().map(x => x.kind))].sort();
       kind.innerHTML = `<option value="">全部类型</option>` + kinds.map(v => `<option value="${v}">${v}</option>`).join("");
     }
 
     function getFiltered() {
       const terms = q.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
-      let list = restaurants.filter(item => {
+      let list = allPlaces().filter(item => {
         const hay = [item.name, item.branch, item.area, item.kind, item.vibe, item.dishes, item.queue, item.address, item.tags.join(" ")].join(" ").toLowerCase();
         return (!terms.length || terms.some(term => hay.includes(term))) &&
           (!area.value || item.area === area.value) &&
@@ -845,14 +914,15 @@
         </article>
       `).join("");
       empty.hidden = list.length > 0;
-      countText.textContent = `当前显示 ${list.length} / ${restaurants.length} 家`;
+      countText.textContent = `当前显示 ${list.length} / ${allPlaces().length} 项，其中朋友补充 ${friendPlaces.length} 项`;
       renderRoute(list);
+      renderFriendList();
     }
 
     function renderStats() {
-      document.querySelector("#statTotal").textContent = restaurants.length;
-      document.querySelector("#statA").textContent = restaurants.filter(x => x.rank === "A").length;
-      document.querySelector("#statNear").textContent = restaurants.filter(x => x.distance <= 1.6).length;
+      document.querySelector("#statTotal").textContent = allPlaces().length;
+      document.querySelector("#statA").textContent = allPlaces().filter(x => x.rank === "A").length;
+      document.querySelector("#statNear").textContent = allPlaces().filter(x => x.distance <= 1.6).length;
     }
 
     function renderRoute(list = getFiltered()) {
@@ -880,7 +950,8 @@
         ["陈村", 73, 13],
         ["勒流", 31, 63],
         ["容桂", 73, 73],
-        ["杏坛", 19, 77]
+        ["杏坛", 19, 77],
+        ["待确认", 82, 42]
       ];
       labels.forEach(([text, x, y]) => {
         const label = document.createElement("div");
@@ -933,20 +1004,75 @@
       URL.revokeObjectURL(a.href);
     }
 
-    function makeTempList() {
+    function renderFriendList() {
       const box = document.querySelector("#tempList");
-      const names = document.querySelector("#rawNames").value
-        .split(/\n+/)
-        .map(x => x.trim())
-        .filter(Boolean);
-      if (!names.length) {
-        box.textContent = "还没有导入餐厅名。";
+      if (!friendPlaces.length) {
+        box.textContent = "还没有朋友补充。";
         return;
       }
-      box.innerHTML = names.map((name, idx) => {
-        const url = `https://uri.amap.com/search?keyword=${encodeURIComponent(name + " 顺德")}&city=${encodeURIComponent("佛山")}&view=map`;
-        return `<p><strong>${idx + 1}. ${name}</strong><br><a class="link" target="_blank" rel="noreferrer" href="${url}">高德搜索</a></p>`;
+      box.innerHTML = friendPlaces.map((item, idx) => {
+        const url = amapUrl(item);
+        return `<p>
+          <strong>${idx + 1}. ${item.name}</strong><br>
+          <span class="small">${item.kind} · ${item.area} · ${item.tags.join(" / ")}</span><br>
+          ${item.vibe ? `<span class="small">${item.vibe}</span><br>` : ""}
+          <a class="link" target="_blank" rel="noreferrer" href="${url}">高德搜索</a>
+        </p>`;
       }).join("");
+    }
+
+    async function loadFriendPlaces() {
+      submitStatus.textContent = "正在读取共建列表...";
+      try {
+        const res = await fetch(`${API_URL}/places`, { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        friendPlaces = (data.items || []).map(normalizeFriendPlace).filter(item => item.name);
+        submitStatus.textContent = `已同步 ${friendPlaces.length} 条朋友补充`;
+      } catch (err) {
+        friendPlaces = [];
+        submitStatus.textContent = "共建接口未连接，暂时不能同步提交";
+      }
+      fillSelects();
+      renderStats();
+      render();
+    }
+
+    async function submitFriendPlace() {
+      const payload = {
+        name: document.querySelector("#placeName").value.trim(),
+        type: document.querySelector("#placeType").value,
+        area: document.querySelector("#placeArea").value,
+        submitter: document.querySelector("#submitter").value.trim(),
+        note: document.querySelector("#placeNote").value.trim()
+      };
+      if (!payload.name) {
+        submitStatus.textContent = "先填名称，再提交。";
+        return;
+      }
+      submitStatus.textContent = "正在提交...";
+      try {
+        const res = await fetch(`${API_URL}/places`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+        document.querySelector("#placeName").value = "";
+        document.querySelector("#placeNote").value = "";
+        submitStatus.textContent = "已提交，正在刷新列表...";
+        await loadFriendPlaces();
+      } catch (err) {
+        submitStatus.textContent = `提交失败：${err.message || "接口未连接"}`;
+      }
+    }
+
+    function clearPlaceForm() {
+      document.querySelector("#placeName").value = "";
+      document.querySelector("#placeNote").value = "";
+      document.querySelector("#submitter").value = "";
+      submitStatus.textContent = friendPlaces.length ? `已同步 ${friendPlaces.length} 条朋友补充` : "表单已清空";
     }
 
     [q, area, kind, rank, sort].forEach(el => el.addEventListener("input", render));
@@ -965,16 +1091,14 @@
       });
     });
     document.querySelector("#exportCsv").addEventListener("click", exportCsv);
-    document.querySelector("#makeTemp").addEventListener("click", makeTempList);
-    document.querySelector("#clearTemp").addEventListener("click", () => {
-      document.querySelector("#rawNames").value = "";
-      makeTempList();
-    });
+    document.querySelector("#submitPlace").addEventListener("click", submitFriendPlace);
+    document.querySelector("#clearPlace").addEventListener("click", clearPlaceForm);
 
     fillSelects();
     renderStats();
     renderRoute();
     render();
+    loadFriendPlaces();
   </script>
 </body>
 </html>
